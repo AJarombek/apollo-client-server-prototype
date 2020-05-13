@@ -1,0 +1,25 @@
+{
+  "name": "apollo-server-prototype",
+  "version": "1.0.0",
+  "description": "Apollo GraphQL Server Prototype Written in Node.js/Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AJarombek/apollo-client-server-prototype.git"
+  },
+  "keywords": [
+    "Apollo",
+    "GraphQL",
+    "NodeJS",
+    "Express"
+  ],
+  "author": "Andrew Jarombek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AJarombek/apollo-client-server-prototype/issues"
+  },
+  "homepage": "https://github.com/AJarombek/apollo-client-server-prototype#readme"
+}
