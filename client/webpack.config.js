@@ -10,7 +10,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: path.join(__dirname, 'src/index.ts'),
+    app: path.join(__dirname, 'src/index.tsx'),
     styles: path.join(__dirname, 'src/index.less')
   },
   module: {
