@@ -84,7 +84,8 @@ module.exports = {
     alias: {
       'react': path.resolve('./node_modules/react'),
       'react-dom': '@hot-loader/react-dom'
-    }
+    },
+    extensions: ['.tsx', '.ts', '.js']
   },
   output: {
     path: path.join(__dirname, 'dist/'),
