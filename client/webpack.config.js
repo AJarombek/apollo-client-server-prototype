@@ -10,8 +10,8 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: path.join(__dirname, 'src/index.tsx'),
-    styles: path.join(__dirname, 'src/index.less')
+    app: path.join(__dirname, './src/index.tsx'),
+    styles: path.join(__dirname, './src/index.less')
   },
   module: {
     rules: [
@@ -85,7 +85,7 @@ module.exports = {
       'react': path.resolve('./node_modules/react'),
       'react-dom': '@hot-loader/react-dom'
     },
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.ts', '.tsx', '.js']
   },
   output: {
     path: path.join(__dirname, 'dist/'),
