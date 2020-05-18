@@ -6,12 +6,33 @@
 
 import express, { Application } from 'express';
 import { ApolloServer, gql } from "apollo-server-express";
+import moment from 'moment';
+import helmet from 'helmet';
+import cors from 'cors';
+import { importSchema } from 'graphql-import';
 
 const app: Application = express();
 const port = process.env ?? 8084;
 
-const schema = gql``;
-const resolvers = {};
+app.use(helmet);
+app.use(cors);
+
+const schema = importSchema('schema/schema.graphql');
+
+export interface Context {}
+
+const resolvers = {
+    Query: {
+        ping: () => moment().unix(),
+        flower: (parent: any, args: any) => {
+            return {
+                id: 1,
+                name: 'placeholder name',
+                url: 'sample.com'
+            }
+        }
+    }
+};
 
 const server = new ApolloServer({
    typeDefs: schema,
