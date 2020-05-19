@@ -1,3 +1,10 @@
+### Overview
+
+Client side React.js/Less code.  This application is the Apollo Client, which calls the 
+Apollo Server for data.
+
+### Files
+
 ### Resources
 
 1. [TypeScript with React & Webpack](https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)

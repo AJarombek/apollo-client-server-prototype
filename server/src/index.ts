@@ -23,14 +23,7 @@ export interface Context {}
 
 const resolvers = {
     Query: {
-        ping: () => moment().unix(),
-        flower: (parent: any, args: any) => {
-            return {
-                id: 1,
-                name: 'placeholder name',
-                url: 'sample.com'
-            }
-        }
+        ping: () => moment().unix()
     }
 };
 
