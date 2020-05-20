@@ -1,4 +1,4 @@
-import { QueryResolvers } from '../types';
+import { QueryResolvers, QueryFlowerArgs } from '../types';
 
 interface Resolvers {
     Query: QueryResolvers
@@ -6,7 +6,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
     Query: {
-        flower: (parent: any, args: any) => {
+        flower: (parent: any, args: QueryFlowerArgs) => {
             return {
                 id: 1,
                 name: 'placeholder name',

@@ -6,5 +6,23 @@
 
 nvm use v10.15.3
 
+# -------------
+# Apollo Client
+# -------------
+
 cd client
 yarn
+
+# -------------
+# Apollo Server
+# -------------
+
+cd server
+yarn
+
+# -------------------
+# PostgreSQL Database
+# -------------------
+
+cd database
+docker-compose up --build
