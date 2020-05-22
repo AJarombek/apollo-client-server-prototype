@@ -1,5 +1,12 @@
+"""
+Root GraphQL schema file.
+Author: Andrew Jarombek
+Date: 5/18/2020
+"""
+
 type Query {
-    _: Boolean
+    ping: Int
+    flower(id: ID!): Flower
 }
 
 type Mutation {
@@ -8,4 +15,21 @@ type Mutation {
 
 type Subscription {
     _: Boolean
+}
+
+type Flower {
+    id: ID!,
+    name: String!,
+    url: String!,
+    lifespan: FlowerLifespan!,
+    inStock: Boolean,
+    onSale: Boolean,
+    count: Int
+    price: Float,
+    salePrice: Float,
+    description: String
+}
+
+enum FlowerLifespan {
+    ANNUAL, PERENNIAL, SHRUB
 }

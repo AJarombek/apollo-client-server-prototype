@@ -4,7 +4,7 @@
 # Author: Andrew Jarombek
 # Date: 5/18/2020
 
-nvm use v10.15.3
+nvm use v13.9.0
 
 # -------------
 # Apollo Client

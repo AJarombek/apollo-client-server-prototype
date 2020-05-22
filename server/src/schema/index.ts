@@ -1,7 +1,20 @@
-import {importSchema} from "graphql-import";
+import { gql } from 'apollo-server-express';
 
-const mainSchema = importSchema('schema.graphql');
-const pingSchema = importSchema('ping.graphql');
-const flowerSchema = importSchema('flower.graphql');
+import pingSchema from "./ping";
+import flowerSchema from "./flower";
 
-export default [mainSchema, pingSchema, flowerSchema];
+const baseSchema = gql`
+    type Query {
+        _: Boolean
+    }
+
+    type Mutation {
+        _: Boolean
+    }
+
+    type Subscription {
+        _: Boolean
+    }
+`;
+
+export default [baseSchema, pingSchema, flowerSchema];
