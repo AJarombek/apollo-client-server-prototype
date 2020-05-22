@@ -1,8 +1,10 @@
-import { QueryResolvers, QueryFlowerArgs } from '../types';
+/**
+ * Resolvers for the flower table.
+ * @author Andrew Jarombek
+ * @since 5/22/2020
+ */
 
-interface Resolvers {
-    Query: QueryResolvers
-}
+import { Resolvers, QueryFlowerArgs } from '../types';
 
 export const resolvers: Resolvers = {
     Query: {

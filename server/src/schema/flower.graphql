@@ -14,8 +14,10 @@ type Flower {
     url: String!,
     lifespan: FlowerLifespan!,
     inStock: Boolean,
+    onSale: Boolean,
     count: Int
     price: Float,
+    salePrice: Float,
     description: String
 }
 

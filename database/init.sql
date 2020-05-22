@@ -24,8 +24,10 @@ CREATE TABLE flower (
     image VARCHAR(50) NOT NULL,
     type VARCHAR(20) NOT NULL,
     in_stock BOOLEAN,
+    on_sale BOOLEAN,
     count INTEGER,
     price FLOAT,
+    sale_price FLOAT,
     description VARCHAR(255),
     PRIMARY KEY (id),
     CONSTRAINT flower_type_fkey FOREIGN KEY (type)

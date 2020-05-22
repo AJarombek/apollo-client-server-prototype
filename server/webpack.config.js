@@ -5,11 +5,13 @@
  */
 
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
     app: path.join(__dirname, './src/index.ts')
   },
+  target: "node",
   module: {
     rules: [
       {
@@ -29,10 +31,14 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js']
   },
+  mode: 'development',
+  externals: [
+    nodeExternals()
+  ],
   output: {
     path: path.join(__dirname, 'dist/'),
     filename: '[name].js',
     publicPath: '',
-    libraryTarget: 'umd'
+    libraryTarget: 'commonjs'
   }
 };

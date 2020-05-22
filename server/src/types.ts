@@ -24,15 +24,17 @@ export type Flower = {
     url: Scalars["String"];
     type: PlantType;
     inStock: Maybe<Scalars["Boolean"]>;
+    onSale: Maybe<Scalars["Boolean"]>;
     count: Maybe<Scalars["Int"]>;
     price: Maybe<Scalars["Float"]>;
+    salePrice: Maybe<Scalars["Float"]>;
     description: Maybe<Scalars["String"]>;
 };
 
 export type PlantType = "ANNUAL" | "PERENNIAL" | "SHRUB";
 
 export type QueryFlowerArgs = {
-    id: Scalars["ID"]
+    id: Flower["id"]
 };
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
@@ -43,7 +45,7 @@ export type ResolverFn<TResult, TParent, TContext, TArgs> = (
 ) => Promise<TResult> | TResult;
 
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-    ResolverFn<TResult, TParent, TContext, TArgs>
+    ResolverFn<TResult, TParent, TContext, TArgs>;
 
 export type ResolversTypes = {
     Query: {};
@@ -64,3 +66,9 @@ export type QueryResolvers<ContextType = Context, ParentType = ResolversTypes["Q
         QueryFlowerArgs
     >;
 };
+
+export type Resolvers<ContextType = Context> = {
+    Query?: QueryResolvers<ContextType>
+};
+
+export type IResolvers<ContextType = Context> = Resolvers<ContextType>;

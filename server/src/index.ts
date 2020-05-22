@@ -5,11 +5,12 @@
  */
 
 import express, { Application } from 'express';
-import { ApolloServer, gql } from "apollo-server-express";
-import moment from 'moment';
+import { ApolloServer } from "apollo-server-express";
 import helmet from 'helmet';
 import cors from 'cors';
-import { importSchema } from 'graphql-import';
+
+import schema from "./schema";
+import resolvers from "./resolvers";
 
 const app: Application = express();
 const port = process.env ?? 8084;
@@ -17,15 +18,7 @@ const port = process.env ?? 8084;
 app.use(helmet);
 app.use(cors);
 
-const schema = importSchema('schema/schema.graphql');
-
 export interface Context {}
-
-const resolvers = {
-    Query: {
-        ping: () => moment().unix()
-    }
-};
 
 const server = new ApolloServer({
    typeDefs: schema,
