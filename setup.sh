@@ -19,6 +19,7 @@ yarn
 
 cd server
 yarn
+yarn global add knex
 
 # -------------------
 # PostgreSQL Database

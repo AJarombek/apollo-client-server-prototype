@@ -22,14 +22,14 @@ export type Flower = {
     id: Scalars["ID"];
     name: Scalars["String"];
     url: Scalars["String"];
-    lifespan: FlowerLifespan;
+    type: PlantType;
     inStock: Maybe<Scalars["Boolean"]>;
     count: Maybe<Scalars["Int"]>;
     price: Maybe<Scalars["Float"]>;
     description: Maybe<Scalars["String"]>;
 };
 
-export type FlowerLifespan = "ANNUAL" | "PERENNIAL";
+export type PlantType = "ANNUAL" | "PERENNIAL" | "SHRUB";
 
 export type QueryFlowerArgs = {
     id: Scalars["ID"]

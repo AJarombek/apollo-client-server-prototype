@@ -20,5 +20,5 @@ type Flower {
 }
 
 enum FlowerLifespan {
-    ANNUAL, PERENNIAL
+    ANNUAL, PERENNIAL, SHRUB
 }
