@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-const StoreFront: React.FC = () => {
+const StoreFront: React.FunctionComponent = () => {
     return (
         <div className="store-front">
             <div className="header">
