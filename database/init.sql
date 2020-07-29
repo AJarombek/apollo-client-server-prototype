@@ -8,6 +8,7 @@ GRANT ALL PRIVILEGES ON DATABASE postgres TO apollo;
 
 -- Create a schema named 'shop' in the 'postgres' database.
 CREATE SCHEMA shop;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA shop TO apollo;
 
 SET search_path TO shop, public;
 

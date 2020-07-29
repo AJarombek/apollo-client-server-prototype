@@ -1,0 +1,19 @@
+"""
+Sample queries that can be used on this Apollo server.
+Author: Andrew Jarombek
+Date: 7/29/2020
+"""
+
+query oneFlower {
+    flower(id: 1) {
+        name
+        url
+    }
+}
+
+query allFlowers {
+    flowers {
+        name
+        url
+    }
+}

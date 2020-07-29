@@ -5,15 +5,17 @@
  */
 
 import { Resolvers, QueryFlowerArgs } from '../types';
+import Flower from "../models/flower";
 
 export const resolvers: Resolvers = {
     Query: {
-        flower: (parent: any, args: QueryFlowerArgs) => {
-            return {
-                id: 1,
-                name: 'placeholder name',
-                url: 'sample.com'
-            }
+        flower: async (parent: any, args: QueryFlowerArgs) => {
+            const flower = await Flower.query().where('id', args.id).first();
+            console.info(flower);
+            return flower;
+        },
+        flowers: (parent: any) => {
+            return Flower.query();
         }
     }
 };

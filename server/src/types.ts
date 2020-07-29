@@ -65,6 +65,11 @@ export type QueryResolvers<ContextType = Context, ParentType = ResolversTypes["Q
         ContextType,
         QueryFlowerArgs
     >;
+    flowers?: Resolver<
+        Array<ResolversTypes["Flower"]>,
+        ParentType,
+        ContextType
+    >;
 };
 
 export type Resolvers<ContextType = Context> = {

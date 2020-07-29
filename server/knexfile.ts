@@ -9,8 +9,8 @@ export default {
     client: 'pg',
     connection: {
       host: 'localhost',
-      user: 'apollo',
-      password: 'apollo',
+      user: 'postgres',
+      password: 'apollolocal',
       database: 'postgres'
     }
   }

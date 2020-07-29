@@ -9,6 +9,12 @@ provider "aws" {
 }
 
 terraform {
+  required_version = ">= 0.12"
+
+  required_providers {
+    aws = ">= 2.70.0"
+  }
+
   backend "s3" {
     bucket = "andrew-jarombek-terraform-state"
     encrypt = true
@@ -38,7 +44,7 @@ data "aws_acm_certificate" "apollo-proto-jarombek-com-cert" {
 #--------------------------------------
 
 resource "aws_s3_bucket" "apollo-proto-jarombek" {
-  bucket = "assets.apollo.proto.jarombek.com"
+  bucket = "asset.apollo.proto.jarombek.com"
   acl = "public-read"
   policy = file("${path.module}/policy.json")
 
@@ -53,7 +59,7 @@ resource "aws_s3_bucket" "apollo-proto-jarombek" {
   }
 }
 
-resource "aws_cloudfront_distribution" "react16-3-demo-jarombek-distribution" {
+resource "aws_cloudfront_distribution" "apollo-proto-jarombek-distribution" {
   origin {
     domain_name = aws_s3_bucket.apollo-proto-jarombek.bucket_regional_domain_name
     origin_id = "origin-bucket-${aws_s3_bucket.apollo-proto-jarombek.id}"
@@ -125,7 +131,19 @@ resource "aws_cloudfront_distribution" "react16-3-demo-jarombek-distribution" {
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin-access-identity" {
-  comment = "react16-3.demo.jarombek.com origin access identity"
+  comment = "asset.apollo.proto.jarombek.com origin access identity"
+}
+
+resource "aws_route53_record" "asset-apollo-proto-jarombek-a" {
+  name = "asset.apollo.proto.jarombek.com."
+  type = "A"
+  zone_id = data.aws_route53_zone.jarombek.zone_id
+
+  alias {
+    evaluate_target_health = false
+    name = aws_cloudfront_distribution.apollo-proto-jarombek-distribution.domain_name
+    zone_id = aws_cloudfront_distribution.apollo-proto-jarombek-distribution.hosted_zone_id
+  }
 }
 
 #-------------------
