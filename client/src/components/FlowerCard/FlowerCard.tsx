@@ -6,11 +6,17 @@
  */
 
 import React from 'react';
+import {Flower} from "../../types";
 
-const FlowerCard: React.FunctionComponent = () => {
+interface IProps {
+    flower: Flower
+}
+
+const FlowerCard: React.FunctionComponent<IProps> = ({ flower }) => {
     return (
         <div className="flower-card">
-
+            <img src={`https://asset.apollo.proto.jarombek.com/${flower.image}`} alt="" />
+            <h6>{flower.name}</h6>
         </div>
     );
 };

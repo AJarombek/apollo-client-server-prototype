@@ -10,12 +10,16 @@ import Flower from "../models/flower";
 export const resolvers: Resolvers = {
     Query: {
         flower: async (parent: any, args: QueryFlowerArgs) => {
-            const flower = await Flower.query().where('id', args.id).first();
-            console.info(flower);
-            return flower;
+            const flowers = await Flower.query().where('id', args.id);
+
+            if (flowers) {
+                return flowers[0];
+            } else {
+                return null;
+            }
         },
         flowers: (parent: any) => {
-            return Flower.query();
+            return Flower.query().orderBy('id');
         }
     }
 };

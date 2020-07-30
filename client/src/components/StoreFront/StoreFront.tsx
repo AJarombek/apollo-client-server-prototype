@@ -5,32 +5,38 @@
  */
 
 import React from 'react';
-import { Query } from 'react-apollo';
+import {useQuery} from 'react-apollo';
 import gql from 'graphql-tag';
+import {Flower} from "../../types";
+import FlowerCard from "../FlowerCard/FlowerCard";
 
 const GET_FLOWERS = gql`
     query allFlowers {
         flowers {
             name
-            url
+            image
         }
     }
 `;
 
-const StoreFront: React.FunctionComponent = () => {
-    return (
-        <Query query={GET_FLOWERS}>
-            { () => (
-                <div className="store-front">
-                    <div className="header">
-                        <h1>Jarombek Flower Store</h1>
-                    </div>
-                    <div className="body">
+interface FlowersData {
+    flowers: Flower[]
+}
 
-                    </div>
-                </div>
-            )}
-        </Query>
+const StoreFront: React.FunctionComponent = () => {
+    const { loading, data } = useQuery<FlowersData>(GET_FLOWERS);
+
+    return (
+        <div className="store-front">
+            <div className="header">
+                <h1>Jarombek Flower Store</h1>
+            </div>
+            <div className="body">
+                {!loading && data.flowers.map((flower) => (
+                    <FlowerCard flower={flower}/>
+                ))}
+            </div>
+        </div>
     );
 };
 

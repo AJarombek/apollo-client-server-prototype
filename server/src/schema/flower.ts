@@ -9,7 +9,7 @@ export default gql`
     type Flower {
         id: ID!,
         name: String!,
-        url: String!,
+        image: String!,
         lifespan: FlowerLifespan!,
         inStock: Boolean,
         onSale: Boolean,

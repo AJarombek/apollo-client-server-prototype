@@ -21,7 +21,7 @@ export type Scalars = {
 export type Flower = {
     id: Scalars["ID"];
     name: Scalars["String"];
-    url: Scalars["String"];
+    image: Scalars["String"];
     type: PlantType;
     inStock: Maybe<Scalars["Boolean"]>;
     onSale: Maybe<Scalars["Boolean"]>;
