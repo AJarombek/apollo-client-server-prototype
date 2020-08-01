@@ -8,7 +8,7 @@
 
 .store-front {
   min-height: 100vh;
-  background-color: @lilac;
+  background-color: lighten(@lilac, 10%);
 
   .header {
     display: flex;
@@ -23,6 +23,11 @@
   }
 
   .body {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: auto;
+    flex-grow: 1;
+    justify-content: space-between;
     margin: 10px;
   }
 }

@@ -15,6 +15,8 @@ const GET_FLOWERS = gql`
         flowers {
             name
             image
+            price
+            salePrice
         }
     }
 `;
@@ -32,7 +34,7 @@ const StoreFront: React.FunctionComponent = () => {
                 <h1>Jarombek Flower Store</h1>
             </div>
             <div className="body">
-                {!loading && data.flowers.map((flower) => (
+                {!loading && !!data && data.flowers.map((flower) => (
                     <FlowerCard flower={flower}/>
                 ))}
             </div>

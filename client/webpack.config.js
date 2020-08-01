@@ -78,7 +78,20 @@ module.exports = {
     })
   ],
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 8080,
+    proxy: {
+      '/asset/**': {
+        target: 'https://asset.apollo.proto.jarombek.com/',
+        changeOrigin: true,
+        secure: true,
+        pathRewrite: { '^/asset': '' }
+      },
+      '/graphql': {
+        target: 'http://localhost:8084',
+        secure: false,
+      }
+    }
   },
   resolve: {
     alias: {

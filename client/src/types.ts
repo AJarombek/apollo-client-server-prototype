@@ -1,3 +1,9 @@
+/**
+ * Types used throughout the front-end application
+ * @author Andrew Jarombek
+ * @since 7/30/2020
+ */
+
 export type PlantType = "ANNUAL" | "PERENNIAL" | "SHRUB";
 
 export type Flower = {

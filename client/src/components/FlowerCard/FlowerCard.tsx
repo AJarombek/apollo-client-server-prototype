@@ -15,8 +15,9 @@ interface IProps {
 const FlowerCard: React.FunctionComponent<IProps> = ({ flower }) => {
     return (
         <div className="flower-card">
-            <img src={`https://asset.apollo.proto.jarombek.com/${flower.image}`} alt="" />
+            <img src={`/asset/${flower.image}`} alt="" />
             <h6>{flower.name}</h6>
+            <p>${flower.price}</p>
         </div>
     );
 };
