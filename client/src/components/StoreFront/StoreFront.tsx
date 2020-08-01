@@ -10,6 +10,7 @@ import gql from 'graphql-tag';
 import {Flower} from "../../types";
 import FlowerCard from "../FlowerCard/FlowerCard";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import NotifyCount from "../NotifyCount/NotifyCount";
 
 const GET_FLOWERS = gql`
     query allFlowers {
@@ -34,10 +35,11 @@ const StoreFront: React.FunctionComponent = () => {
             <div className="header">
                 <h1>Jarombek Flower Store</h1>
                 <div className="cart">
-                    <div>
+                    <div className="cart-icon">
                         <ShoppingCartOutlinedIcon/>
                         <p>Cart</p>
                     </div>
+                    <NotifyCount count={0} />
                 </div>
             </div>
             <div className="body">
