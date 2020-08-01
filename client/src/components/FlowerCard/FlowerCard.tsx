@@ -7,6 +7,8 @@
 
 import React from 'react';
 import {Flower} from "../../types";
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import {AJTextButton} from "jarombek-react-components";
 
 interface IProps {
     flower: Flower
@@ -15,9 +17,21 @@ interface IProps {
 const FlowerCard: React.FunctionComponent<IProps> = ({ flower }) => {
     return (
         <div className="flower-card">
-            <img src={`/asset/${flower.image}`} alt="" />
-            <h6>{flower.name}</h6>
-            <p>${flower.price}</p>
+            <img src={`/asset/${flower.image}`} alt="" onClick={() => {}} />
+            <div className="content">
+                <div className="details">
+                    <h6 onClick={() => {}}>{flower.name}</h6>
+                    <p>${flower.price}</p>
+                </div>
+                <div className="actions">
+                    <AJTextButton>
+                        <div className="add-to-cart">
+                            <p>Add to Cart</p>
+                            <AddRoundedIcon />
+                        </div>
+                    </AJTextButton>
+                </div>
+            </div>
         </div>
     );
 };

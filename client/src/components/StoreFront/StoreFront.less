@@ -11,14 +11,54 @@
   background-color: lighten(@lilac, 10%);
 
   .header {
-    display: flex;
+    display: grid;
+    grid-template-areas: 'left title right';
+    grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
     justify-content: center;
 
     h1 {
+      grid-area: title;
+      text-align: center;
       font-family: 'Allura', Helvetica, sans-serif;
       font-size: 48px;
       color: @darkPurple;
+    }
+
+    .cart {
+      grid-area: right;
+      align-self: center;
+      justify-self: center;
+
+      display: flex;
+      width: 100px;
+      align-items: center;
+      justify-content: center;
+
+      div {
+        cursor: pointer;
+
+        &:hover {
+          svg, p {
+            color: darken(@lilac, 30%);
+          }
+        }
+
+        svg, p {
+          color: @darkPurple;
+        }
+
+        svg {
+          font-size: 2rem;
+        }
+
+        p {
+          font-family: 'Roboto-Thin', Helvetica, sans-serif;
+          font-size: 14px;
+          margin: 0;
+          text-align: center;
+        }
+      }
     }
   }
 

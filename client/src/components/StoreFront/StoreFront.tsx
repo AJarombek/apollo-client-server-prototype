@@ -9,6 +9,7 @@ import {useQuery} from 'react-apollo';
 import gql from 'graphql-tag';
 import {Flower} from "../../types";
 import FlowerCard from "../FlowerCard/FlowerCard";
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 
 const GET_FLOWERS = gql`
     query allFlowers {
@@ -32,6 +33,12 @@ const StoreFront: React.FunctionComponent = () => {
         <div className="store-front">
             <div className="header">
                 <h1>Jarombek Flower Store</h1>
+                <div className="cart">
+                    <div>
+                        <ShoppingCartOutlinedIcon/>
+                        <p>Cart</p>
+                    </div>
+                </div>
             </div>
             <div className="body">
                 {!loading && !!data && data.flowers.map((flower) => (
