@@ -11,6 +11,7 @@ Apollo Server for data.
 | `.babelrc`               | Configuration for the Babel transpiler.                                    |
 | `.eslintrc.js`           | Configuration for ESLint JavaScript/Typescript linting.                    |
 | `.prettierrc.js`         | Configuration for the Prettier automated code formatter.                   |
+| `docker-compose.yml`     | Docker compose configuration to easily run the Dockerfile locally.         |
 | `Dockerfile`             | Dockerfile for running the client application locally or in production.    |
 | `nginx.conf`             | Nginx server configuration for the client application.                     |
 | `package.json`           | Entry point for the npm application.  Contains dependency definitions.     |

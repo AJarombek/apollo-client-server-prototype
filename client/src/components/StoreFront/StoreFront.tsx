@@ -4,7 +4,7 @@
  * @since 5/15/2020
  */
 
-import React, {useMemo, useReducer, useState} from 'react';
+import React, {useEffect, useMemo, useReducer, useState} from 'react';
 import {useQuery} from 'react-apollo';
 import gql from 'graphql-tag';
 import {Flower} from "../../types";
@@ -15,6 +15,7 @@ import NotifyCount from "../NotifyCount/NotifyCount";
 const GET_FLOWERS = gql`
     query allFlowers {
         flowers {
+            id
             name
             image
             price
@@ -44,7 +45,7 @@ const reducer = (state: CartItem[], action: CartAction): CartItem[] => {
 
         if (existingItems.length > 0) {
             return [
-                ...state,
+                ...state.filter((item) => item.id !== action.id),
                 {
                     id: existingItems[0].id,
                     count: existingItems[0].count + 1
@@ -69,6 +70,16 @@ const StoreFront: React.FunctionComponent = () => {
     const [selectedFlower, setSelectedFlower] = useState(null);
     const [cart, dispatchCart] = useReducer(reducer, []);
 
+    const handleScroll = () => {};
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', () => handleScroll);
+        };
+    }, []);
+
     const cartSize = useMemo(
         () => cart.reduce<number>((acc: number, item: CartItem) => acc + item.count, 0),
         [cart]
@@ -83,7 +94,7 @@ const StoreFront: React.FunctionComponent = () => {
                         <ShoppingCartOutlinedIcon/>
                         <p>Cart</p>
                     </div>
-                    {cartSize && <NotifyCount count={cartSize} />}
+                    {!!cartSize && <NotifyCount count={cartSize} />}
                 </div>
             </div>
             <div className="body">
