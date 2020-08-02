@@ -36,4 +36,4 @@ cd database
 | `database`            | PostgreSQL database holding application data.                             |
 | `infra`               | Terraform/AWS infrastructure.                                             |
 | `server`              | Server side (Node.js/Express/Apollo Server) code for the application.     |
-| `setup.sh`            | Home page (when signed-out) for the application.                          |
+| `setup.sh`            | Bash commands to setup the application.                                   |

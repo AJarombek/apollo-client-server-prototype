@@ -1,4 +1,4 @@
-# Dockerfile which creates a Postgres database for use in my local environment.
+# Dockerfile which creates a Postgres database for the apollo-client-server-prototype.
 # Author: Andrew Jarombek
 # Date: 5/20/2020
 

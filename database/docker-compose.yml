@@ -7,7 +7,7 @@ services:
   database:
     build:
       context: .
-      dockerfile: local.dockerfile
+      dockerfile: Dockerfile
       network: host
     environment:
       # Password is assigned to the default 'postgres' user.

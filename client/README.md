@@ -7,11 +7,16 @@ Apollo Server for data.
 
 | Filename                 | Description                                                                |
 |--------------------------|----------------------------------------------------------------------------|
-| `client`                 | React/Apollo Client application.                                           |
-| `database`               | PostgreSQL database commands, scripts, and Docker configuration.           |
-| `infra`                  | Terraform configuration for AWS and Kubernetes infrastructure.             |
-| `server`                 | Node.js/Express/Apollo Server application.                                 |
-| `setup.sh`               | Bash commands to setup the application.                                    |
+| `src`                    | React/Apollo/Less source code for the client application.                  |
+| `.babelrc`               | Configuration for the Babel transpiler.                                    |
+| `.eslintrc.js`           | Configuration for ESLint JavaScript/Typescript linting.                    |
+| `.prettierrc.js`         | Configuration for the Prettier automated code formatter.                   |
+| `Dockerfile`             | Dockerfile for running the client application locally or in production.    |
+| `nginx.conf`             | Nginx server configuration for the client application.                     |
+| `package.json`           | Entry point for the npm application.  Contains dependency definitions.     |
+| `tsconfig.json`          | Typescript language configuration.                                         |
+| `webpack.config.js`      | Webpack code bundler configuration file.                                   |
+| `yarn.lock`              | Versions of each dependency used by Yarn.                                  |
 
 ### Resources
 
