@@ -11,21 +11,23 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import {AJTextButton} from "jarombek-react-components";
 
 interface IProps {
-    flower: Flower
+    flower: Flower;
+    onShowDetails: (event: React.MouseEvent<HTMLElement>) => any;
+    onAddToCart: (event: React.MouseEvent<HTMLDivElement>) => any;
 }
 
-const FlowerCard: React.FunctionComponent<IProps> = ({ flower }) => {
+const FlowerCard: React.FunctionComponent<IProps> = ({ flower, onShowDetails, onAddToCart }) => {
     return (
         <div className="flower-card">
-            <img src={`/asset/${flower.image}`} alt="" onClick={() => {}} />
+            <img src={`/asset/${flower.image}`} alt="" onClick={onShowDetails} />
             <div className="content">
                 <div className="details">
-                    <h6 onClick={() => {}}>{flower.name}</h6>
+                    <h6 onClick={onShowDetails}>{flower.name}</h6>
                     <p>${flower.price}</p>
                 </div>
                 <div className="actions">
                     <AJTextButton>
-                        <div className="add-to-cart">
+                        <div className="add-to-cart" onClick={onAddToCart}>
                             <p>Add to Cart</p>
                             <AddRoundedIcon />
                         </div>

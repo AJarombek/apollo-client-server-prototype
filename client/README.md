@@ -5,6 +5,14 @@ Apollo Server for data.
 
 ### Files
 
+| Filename                 | Description                                                                |
+|--------------------------|----------------------------------------------------------------------------|
+| `client`                 | React/Apollo Client application.                                           |
+| `database`               | PostgreSQL database commands, scripts, and Docker configuration.           |
+| `infra`                  | Terraform configuration for AWS and Kubernetes infrastructure.             |
+| `server`                 | Node.js/Express/Apollo Server application.                                 |
+| `setup.sh`               | Bash commands to setup the application.                                    |
+
 ### Resources
 
 1. [TypeScript with React & Webpack](https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
