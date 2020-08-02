@@ -4,9 +4,10 @@
  * @since 5/15/2020
  */
 
-import React, {useEffect, useMemo, useReducer, useState} from 'react';
+import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import {useQuery} from 'react-apollo';
 import gql from 'graphql-tag';
+import classNames from 'classnames';
 import {Flower} from "../../types";
 import FlowerCard from "../FlowerCard/FlowerCard";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
@@ -66,11 +67,18 @@ const reducer = (state: CartItem[], action: CartAction): CartItem[] => {
 const StoreFront: React.FunctionComponent = () => {
     const { loading, data } = useQuery<FlowersData>(GET_FLOWERS);
 
+    const ref = useRef(null);
+
+    const [stickyHeader, setStickyHeader] = useState(false);
     const [showFlowerDetails, setShowFlowerDetails] = useState(false);
     const [selectedFlower, setSelectedFlower] = useState(null);
     const [cart, dispatchCart] = useReducer(reducer, []);
 
-    const handleScroll = () => {};
+    const handleScroll = () => {
+        if (ref.current) {
+            setStickyHeader(ref.current.getBoundingClientRect().top <= 0);
+        }
+    };
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -86,8 +94,12 @@ const StoreFront: React.FunctionComponent = () => {
     );
 
     return (
-        <div className="store-front">
-            <div className="header">
+        <div className="store-front" ref={ref}>
+            <div
+                className={
+                    classNames("header", stickyHeader ? "header-sticky" : "header-dry")
+                }
+            >
                 <h1>Jarombek Flower Store</h1>
                 <div className="cart">
                     <div className="cart-icon">
