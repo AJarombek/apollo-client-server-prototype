@@ -1,0 +1,20 @@
+# Kubernetes pod for the server of the apollo prototype.
+# Author: Andrew Jarombek
+# Date: 8/2/2020
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: apollo-prototype-server
+  namespace: sandbox
+  labels:
+    version: v1.0.0
+    environment: production
+    application: apollo-client-server-prototype
+spec:
+  containers:
+    - name: apollo-prototype-server
+      image: ajarombek/apollo-prototype-server:latest
+      ports:
+        - containerPort: 80
+          protocol: TCP

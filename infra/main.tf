@@ -39,6 +39,14 @@ data "aws_acm_certificate" "apollo-proto-jarombek-com-cert" {
   domain = "*.apollo.proto.jarombek.com"
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = "andrew-jarombek-eks-cluster"
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = "andrew-jarombek-eks-cluster"
+}
+
 #--------------------------------------
 # New AWS Resources for S3 & CloudFront
 #--------------------------------------
@@ -292,4 +300,65 @@ resource "aws_s3_bucket_object" "zinnia-jpg" {
   source = "images/zinnia.jpg"
   etag = filemd5("${path.cwd}/images/zinnia.jpg")
   content_type = "image/jpg"
+}
+
+#-------------------------
+# New Kubernetes Resources
+#-------------------------
+
+provider "kubernetes" {
+  host = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token = data.aws_eks_cluster_auth.cluster.token
+  load_config_file = false
+}
+
+resource "kubernetes_pod" "database" {
+  metadata {
+    name = "apollo-prototype-database"
+    namespace = "sandbox"
+
+    labels = {
+      version = "v1.0.0"
+      environment = "production"
+      application = "apollo-client-server-prototype"
+    }
+  }
+
+  spec {
+    container {
+      name = "apollo-prototype-database"
+      image = "ajarombek/apollo-prototype-database:latest"
+
+      port {
+        container_port = 5432
+        protocol = "TCP"
+      }
+    }
+  }
+}
+
+resource "kubernetes_pod" "server" {
+  metadata {
+    name = "apollo-prototype-server"
+    namespace = "sandbox"
+
+    labels = {
+      version = "v1.0.0"
+      environment = "production"
+      application = "apollo-client-server-prototype"
+    }
+  }
+
+  spec {
+    container {
+      name = "apollo-prototype-server"
+      image = "ajarombek/apollo-prototype-server:latest"
+
+      port {
+        container_port = 80
+        protocol = "TCP"
+      }
+    }
+  }
 }
