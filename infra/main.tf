@@ -47,6 +47,35 @@ data "aws_eks_cluster_auth" "cluster" {
   name = "andrew-jarombek-eks-cluster"
 }
 
+data "aws_subnet" "kubernetes-dotty-public-subnet" {
+  tags = {
+    Name = "kubernetes-dotty-public-subnet"
+  }
+}
+
+data "aws_subnet" "kubernetes-grandmas-blanket-public-subnet" {
+  tags = {
+    Name = "kubernetes-grandmas-blanket-public-subnet"
+  }
+}
+
+data "aws_vpc" "kubernetes-vpc" {
+  tags = {
+    Name = "kubernetes-vpc"
+  }
+}
+
+#----------------
+# Local Variables
+#----------------
+
+locals {
+  cert_arn = data.aws_acm_certificate.proto-jarombek-com-cert
+  wildcard_cert_arn = data.aws_acm_certificate.apollo-proto-jarombek-com-cert
+  subnet1 = data.aws_subnet.kubernetes-dotty-public-subnet.id
+  subnet2 = data.aws_subnet.kubernetes-grandmas-blanket-public-subnet.id
+}
+
 #--------------------------------------
 # New AWS Resources for S3 & CloudFront
 #--------------------------------------
@@ -302,6 +331,42 @@ resource "aws_s3_bucket_object" "zinnia-jpg" {
   content_type = "image/jpg"
 }
 
+resource "aws_security_group" "apollo-prototype-lb-sg" {
+  name = "apollo-prototype-lb-security-group"
+  vpc_id = data.aws_vpc.kubernetes-vpc.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  ingress {
+    protocol = "tcp"
+    from_port = 80
+    to_port = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    protocol = "tcp"
+    from_port = 443
+    to_port = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    protocol = "-1"
+    from_port = 0
+    to_port = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "apollo-prototype-lb-security-group"
+    Application = "apollo-client-server-prototype"
+    Environment = "production"
+  }
+}
+
 #-------------------------
 # New Kubernetes Resources
 #-------------------------
@@ -355,9 +420,165 @@ resource "kubernetes_pod" "server" {
       name = "apollo-prototype-server"
       image = "ajarombek/apollo-prototype-server:latest"
 
+      readiness_probe {
+        period_seconds = 5
+        initial_delay_seconds = 20
+
+        http_get {
+          path = "/ping"
+          port = 80
+        }
+      }
+
       port {
         container_port = 80
         protocol = "TCP"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment" "client" {
+  metadata {
+    name = "apollo-prototype-client-deployment"
+    namespace = "sandbox"
+
+    labels = {
+      version = "v1.0.0"
+      environment = "production"
+      application = "apollo-client-server-prototype"
+    }
+  }
+
+  spec {
+    replicas = 1
+    min_ready_seconds = 10
+
+    strategy {
+      type = "RollingUpdate"
+
+      rolling_update {
+        max_surge = "1"
+        max_unavailable = "0"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          version = "v1.0.0"
+          environment = "production"
+          application = "apollo-client-server-prototype"
+        }
+      }
+
+      spec {
+        container {
+          name = "apollo-prototype-client"
+          image = "ajarombek/apollo-prototype-client:latest"
+
+          readiness_probe {
+            period_seconds = 5
+            initial_delay_seconds = 20
+
+            http_get {
+              path = "/"
+              port = 80
+            }
+          }
+
+          port {
+            container_port = 80
+            protocol = "TCP"
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "client" {
+  metadata {
+    name = "apollo-prototype-client-service"
+    namespace = "sandbox"
+
+    labels = {
+      version = "v1.0.0"
+      environment = "production"
+      application = "apollo-client-server-prototype"
+    }
+  }
+
+  spec {
+    type = "NodePort"
+
+    port {
+      port = 80
+      target_port = 80
+      protocol = "TCP"
+    }
+
+    selector = {
+      application = "apollo-client-server-prototype"
+    }
+  }
+}
+
+resource "kubernetes_ingress" "ingress" {
+  metadata {
+    name = "apollo-prototype-client-ingress"
+    namespace = "sandbox"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "alb"
+      "external-dns.alpha.kubernetes.io/hostname" = "apollo.proto.jarombek.com,www.apollo.proto.jarombek.com"
+      "alb.ingress.kubernetes.io/backend-protocol" = "HTTP"
+      "alb.ingress.kubernetes.io/certificate-arn" = "${local.cert_arn},${local.wildcard_cert_arn}"
+      "alb.ingress.kubernetes.io/healthcheck-path" = "/login"
+      "alb.ingress.kubernetes.io/listen-ports" = "[{\"HTTP\":80}, {\"HTTPS\":443}]"
+      "alb.ingress.kubernetes.io/healthcheck-protocol": "HTTP"
+      "alb.ingress.kubernetes.io/scheme" = "internet-facing"
+      "alb.ingress.kubernetes.io/security-groups" = aws_security_group.apollo-prototype-lb-sg.id
+      "alb.ingress.kubernetes.io/subnets" = "${local.subnet1},${local.subnet2}"
+      "alb.ingress.kubernetes.io/target-type" = "instance"
+      "alb.ingress.kubernetes.io/tags" = "Name=apollo-prototype-load-balancer,Application=apollo-client-server-prototype,Environment=production"
+    }
+
+    labels = {
+      version = "v1.0.0"
+      environment = "production"
+      application = "apollo-client-server-prototype"
+    }
+  }
+
+  spec {
+    rule {
+      host = "apollo.proto.jarombek.com"
+
+      http {
+        path {
+          path = "/*"
+
+          backend {
+            service_name = "apollo-prototype-client-service"
+            service_port = 80
+          }
+        }
+      }
+    }
+
+    rule {
+      host = "www.apollo.proto.jarombek.com"
+
+      http {
+        path {
+          path = "/*"
+
+          backend {
+            service_name = "apollo-prototype-client-service"
+            service_port = 80
+          }
+        }
       }
     }
   }

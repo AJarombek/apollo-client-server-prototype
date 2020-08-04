@@ -1,0 +1,42 @@
+# Kubernetes ingress object for the client of the apollo prototype.
+# Author: Andrew Jarombek
+# Date: 8/3/2020
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: apollo-prototype-client-ingress
+  namespace: sandbox
+  annotations:
+    kubernetes.io/ingress.class: alb
+    external-dns.alpha.kubernetes.io/hostname: apollo.proto.jarombek.com,www.apollo.proto.jarombek.com
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/certificate-arn: ${ACM_CERT_ARNS}
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/healthcheck-path: '/'
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/security-groups: ${SECURITY_GROUPS_ID}
+    alb.ingress.kubernetes.io/subnets: ${SUBNET_IDS}
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/tags: Name=apollo-prototype-load-balancer,Application=apollo-client-server-prototype,Environment=production
+  labels:
+    version: v1.0.0
+    environment: production
+    application: apollo-client-server-prototype
+spec:
+  rules:
+    - host: apollo.proto.jarombek.com
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: apollo-prototype-client-service
+              servicePort: 80
+    - host: www.apollo.proto.jarombek.com
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: apollo-prototype-client-service
+              servicePort: 80

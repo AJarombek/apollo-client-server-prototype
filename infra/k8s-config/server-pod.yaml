@@ -15,6 +15,12 @@ spec:
   containers:
     - name: apollo-prototype-server
       image: ajarombek/apollo-prototype-server:latest
+      readinessProbe:
+        periodSeconds: 5
+        initialDelaySeconds: 20
+        httpGet:
+          path: /ping
+          port: 80
       ports:
         - containerPort: 80
           protocol: TCP
