@@ -18,3 +18,11 @@ export type Flower = {
     salePrice?: number;
     description?: string;
 }
+
+export type FlowersData = {
+    flowers: Flower[];
+}
+
+export type FlowerData = {
+    flower: Flower;
+}

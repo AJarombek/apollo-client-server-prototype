@@ -8,10 +8,11 @@ import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import {useQuery} from 'react-apollo';
 import gql from 'graphql-tag';
 import classNames from 'classnames';
-import {Flower} from "../../types";
+import {Flower, FlowersData} from "../../types";
 import FlowerCard from "../FlowerCard/FlowerCard";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import NotifyCount from "../NotifyCount/NotifyCount";
+import FlowerDetails from "../FlowerDetails/FlowerDetails";
 
 const GET_FLOWERS = gql`
     query allFlowers {
@@ -24,10 +25,6 @@ const GET_FLOWERS = gql`
         }
     }
 `;
-
-interface FlowersData {
-    flowers: Flower[]
-}
 
 interface CartItem {
     id: number;
@@ -69,9 +66,10 @@ const StoreFront: React.FunctionComponent = () => {
 
     const ref = useRef(null);
 
-    const [stickyHeader, setStickyHeader] = useState(false);
-    const [showFlowerDetails, setShowFlowerDetails] = useState(false);
-    const [selectedFlower, setSelectedFlower] = useState(null);
+    const [stickyHeader, setStickyHeader] = useState<boolean>(false);
+    const [showFlowerDetails, setShowFlowerDetails] = useState<boolean>(false);
+    const [selectedFlower, setSelectedFlower] = useState<Flower>(null);
+
     const [cart, dispatchCart] = useReducer(reducer, []);
 
     const handleScroll = () => {
@@ -121,6 +119,9 @@ const StoreFront: React.FunctionComponent = () => {
                     />
                 ))}
             </div>
+            {showFlowerDetails && (
+                <FlowerDetails flowerId={selectedFlower.id}/>
+            )}
         </div>
     );
 };

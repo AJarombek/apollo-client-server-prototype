@@ -10,7 +10,7 @@ export default gql`
         id: ID!,
         name: String!,
         image: String!,
-        lifespan: FlowerLifespan!,
+        type: FlowerLifespan!,
         inStock: Boolean,
         onSale: Boolean,
         count: Int
@@ -20,6 +20,6 @@ export default gql`
     }
 
     enum FlowerLifespan {
-        ANNUAL, PERENNIAL, SHRUB
+        annual, perennial, shrub
     }
 `;

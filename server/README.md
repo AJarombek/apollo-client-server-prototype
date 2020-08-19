@@ -17,3 +17,12 @@ GraphQL API.
 | `tsconfig.json`          | Typescript language configuration.                                         |
 | `webpack.config.js`      | Webpack code bundler configuration file.                                   |
 | `yarn.lock`              | Versions of each dependency used by Yarn.                                  |
+
+### Resources
+
+1. [Express API with TypeScript](https://medium.com/the-andela-way/how-to-set-up-an-express-api-using-webpack-and-typescript-69d18c8c4f52)
+2. [Apollo Server in TypeScript](https://medium.com/@th.guibert/basic-apollo-express-graphql-api-with-typescript-2ee021dea2c)
+3. [Apollo Typescript Strong Typing](https://www.formidable.com/blog/2019/strong-typing/)
+4. [Apollo Typescript Type Creation](https://github.com/dotansimha/graphql-code-generator)
+5. [Express + Knex + Objection](https://itnext.io/express-knex-objection-painless-api-with-db-74512c484f0c)
+6. [Objection Models](https://vincit.github.io/objection.js/guide/models.html#examples)

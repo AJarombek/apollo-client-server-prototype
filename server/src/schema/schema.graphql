@@ -21,7 +21,7 @@ type Flower {
     id: ID!,
     name: String!,
     url: String!,
-    lifespan: FlowerLifespan!,
+    type: FlowerLifespan!,
     inStock: Boolean,
     onSale: Boolean,
     count: Int
