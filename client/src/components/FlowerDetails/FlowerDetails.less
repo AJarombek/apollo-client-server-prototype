@@ -5,7 +5,10 @@
  * Date: 8/2/2020
  */
 
+@import "../../vars";
+
 .flower-details-modal {
+  cursor: default;
 
   & > div {
     width: 92%;
@@ -49,10 +52,16 @@
     .body {
       display: flex;
       flex-direction: column;
+      padding: 0 20px;
+      margin-top: 20px;
 
       .status {
         display: flex;
         align-items: center;
+
+        p {
+          margin: 0;
+        }
 
         p:nth-child(1) {
           font-family: 'ElegantIcons', Helvetica, sans-serif;
@@ -69,16 +78,39 @@
 
         p:nth-child(2) {
           font-family: 'Roboto-Regular', Helvetica, sans-serif;
-          margin-left: 5px;
+          padding-left: 5px;
         }
       }
 
-      p:nth-child(2) {
+      > p:nth-child(2) {
         font-family: 'Roboto-Regular', Helvetica, sans-serif;
+        margin: 10px 0 0 0;
       }
 
-      p:nth-child(3) {
+      > p:nth-child(3) {
         font-family: 'Roboto-Thin', Helvetica, sans-serif;
+        margin: 20px 0 0 0;
+      }
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 45px 20px 25px 20px;
+
+      .add-to-cart-button {
+        &.add-to-cart-enabled {
+          background-color: @brightLilac;
+        }
+
+        &.add-to-cart-disabled {
+          background-color: @darkLilac;
+        }
+      }
+
+      .return-button {
+        color: @darkPurple;
       }
     }
   }

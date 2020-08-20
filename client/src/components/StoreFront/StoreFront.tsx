@@ -8,6 +8,7 @@ import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import {useQuery} from 'react-apollo';
 import gql from 'graphql-tag';
 import classNames from 'classnames';
+import {useHistory} from 'react-router-dom';
 import {Flower, FlowersData} from "../../types";
 import FlowerCard from "../FlowerCard/FlowerCard";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
@@ -62,6 +63,7 @@ const reducer = (state: CartItem[], action: CartAction): CartItem[] => {
 };
 
 const StoreFront: React.FunctionComponent = () => {
+    const history = useHistory();
     const { loading, data } = useQuery<FlowersData>(GET_FLOWERS);
 
     const ref = useRef(null);
@@ -100,7 +102,7 @@ const StoreFront: React.FunctionComponent = () => {
             >
                 <h1>Jarombek Flower Store</h1>
                 <div className="cart">
-                    <div className="cart-icon">
+                    <div className="cart-icon" onClick={() => history.push("/checkout")}>
                         <ShoppingCartOutlinedIcon/>
                         <p>Cart</p>
                     </div>
@@ -120,7 +122,11 @@ const StoreFront: React.FunctionComponent = () => {
                 ))}
             </div>
             {showFlowerDetails && (
-                <FlowerDetails flowerId={selectedFlower.id}/>
+                <FlowerDetails
+                    flowerId={selectedFlower.id}
+                    onClose={() => setShowFlowerDetails(false)}
+                    onAddToCart={() => dispatchCart({ type: 'add', id: selectedFlower.id })}
+                />
             )}
         </div>
     );

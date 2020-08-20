@@ -4,7 +4,7 @@
  * @since 8/2/2020
  */
 
-import React from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {FlowerData} from "../../types";
 import {AJButton, AJModal} from "jarombek-react-components";
 import gql from "graphql-tag";
@@ -28,12 +28,20 @@ const GET_FLOWER_DETAILS = gql`
 
 interface IProps {
     flowerId: number;
+    onClose: Function;
+    onAddToCart: Function;
 }
 
-const FlowerDetails: React.FunctionComponent<IProps> = ({ flowerId }) => {
+const FlowerDetails: React.FunctionComponent<IProps> = ({ flowerId, onClose, onAddToCart }) => {
     const { loading, data: { flower } = {} } = useQuery<FlowerData>(GET_FLOWER_DETAILS, {
         variables: { id: flowerId }
     });
+
+    const [flowerCount, setFlowerCount] = useState(0);
+
+    useEffect(() => {
+        setFlowerCount(flower?.count ?? 0);
+    }, [flower?.count]);
 
     return (
         <AJModal className="flower-details-modal">
@@ -71,10 +79,23 @@ const FlowerDetails: React.FunctionComponent<IProps> = ({ flowerId }) => {
                         <p>{flower.description}</p>
                     </div>
                     <div className="footer">
-                        <AJButton type="contained" onClick={() => {}} disabled={false}>
+                        <AJButton
+                            type="contained"
+                            onClick={onAddToCart}
+                            disabled={!flowerCount}
+                            className={classNames(
+                                "add-to-cart-button",
+                                !!flowerCount ? "add-to-cart-enabled" : "add-to-cart-disabled"
+                            )}
+                        >
                             Add to Cart
                         </AJButton>
-                        <AJButton type="text" onClick={() => {}} disabled={false}>
+                        <AJButton
+                            type="text"
+                            onClick={onClose}
+                            disabled={false}
+                            className="return-button"
+                        >
                             Return
                         </AJButton>
                     </div>
