@@ -1,5 +1,6 @@
 /**
  * Stylesheet for the FlowerDetails component.
+ * Dotty wraps her hooves around you and gives you a warm fluffy virtual hug.
  * Author: Andrew Jarombek
  * Date: 8/2/2020
  */
@@ -8,7 +9,7 @@
 
   & > div {
     width: 92%;
-    max-width: 700px;
+    max-width: 400px;
   }
 
   .flower-details {
@@ -16,15 +17,68 @@
 
     .header {
       display: flex;
+      padding: 25px 20px;
+
+      .name {
+        font-family: 'RobotoSlab-Bold', Helvetica, sans-serif;
+        font-size: 20px;
+        margin: 0;
+      }
 
       .header-info {
+        display: flex;
+        margin: 0 0 0 auto;
+        align-items: center;
+
+        .type, .price, .spread {
+          margin: 0;
+        }
+
         .type, .price {
           font-family: 'Roboto-Thin', Helvetica, sans-serif;
+          font-size: 18px;
         }
 
         .spread {
-          font-family: 'ElegantIcons', Helvetica, sans-serif !important;
+          font-family: 'ElegantIcons', Helvetica, sans-serif;
+          margin: 0 10px;
         }
+      }
+    }
+
+    .body {
+      display: flex;
+      flex-direction: column;
+
+      .status {
+        display: flex;
+        align-items: center;
+
+        p:nth-child(1) {
+          font-family: 'ElegantIcons', Helvetica, sans-serif;
+          font-size: 22px;
+        }
+
+        .in-stock {
+          color: #28a745;
+        }
+
+        .out-of-stock {
+          color: #dc3545;
+        }
+
+        p:nth-child(2) {
+          font-family: 'Roboto-Regular', Helvetica, sans-serif;
+          margin-left: 5px;
+        }
+      }
+
+      p:nth-child(2) {
+        font-family: 'Roboto-Regular', Helvetica, sans-serif;
+      }
+
+      p:nth-child(3) {
+        font-family: 'Roboto-Thin', Helvetica, sans-serif;
       }
     }
   }
