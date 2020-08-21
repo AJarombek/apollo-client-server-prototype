@@ -7,13 +7,11 @@
 import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import {useQuery} from 'react-apollo';
 import gql from 'graphql-tag';
-import classNames from 'classnames';
-import {useHistory} from 'react-router-dom';
-import {Flower, FlowersData} from "../../types";
+import {Flower, FlowersData, CartItem} from "../../types";
 import FlowerCard from "../FlowerCard/FlowerCard";
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import NotifyCount from "../NotifyCount/NotifyCount";
 import FlowerDetails from "../FlowerDetails/FlowerDetails";
+import Header from "../Header/Header";
+import {cartReducer} from "../../reducers/cart";
 
 const GET_FLOWERS = gql`
     query allFlowers {
@@ -27,43 +25,7 @@ const GET_FLOWERS = gql`
     }
 `;
 
-interface CartItem {
-    id: number;
-    count: number;
-}
-
-type CartActionTypes = 'add'
-interface CartAction {
-    type: CartActionTypes;
-    id: number;
-}
-
-const reducer = (state: CartItem[], action: CartAction): CartItem[] => {
-    if (action.type === 'add') {
-        const existingItems = state.filter((item) => item.id === action.id);
-
-        if (existingItems.length > 0) {
-            return [
-                ...state.filter((item) => item.id !== action.id),
-                {
-                    id: existingItems[0].id,
-                    count: existingItems[0].count + 1
-                }
-            ]
-        } else {
-            return [
-                ...state,
-                {
-                    id: action.id,
-                    count: 1
-                }
-            ]
-        }
-    }
-};
-
 const StoreFront: React.FunctionComponent = () => {
-    const history = useHistory();
     const { loading, data } = useQuery<FlowersData>(GET_FLOWERS);
 
     const ref = useRef(null);
@@ -72,16 +34,22 @@ const StoreFront: React.FunctionComponent = () => {
     const [showFlowerDetails, setShowFlowerDetails] = useState<boolean>(false);
     const [selectedFlower, setSelectedFlower] = useState<Flower>(null);
 
-    const [cart, dispatchCart] = useReducer(reducer, []);
+    const [cart, dispatchCart] = useReducer(cartReducer, []);
 
     const handleScroll = () => {
         if (ref.current) {
-            setStickyHeader(ref.current.getBoundingClientRect().top <= 0);
+            setStickyHeader(ref.current.getBoundingClientRect().top <= -100);
         }
     };
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
+
+        const existingCart = localStorage.getItem('cart');
+
+        if (existingCart) {
+            dispatchCart({ type: 'restore', items: JSON.parse(existingCart) });
+        }
 
         return () => {
             window.removeEventListener('scroll', () => handleScroll);
@@ -95,20 +63,7 @@ const StoreFront: React.FunctionComponent = () => {
 
     return (
         <div className="store-front" ref={ref}>
-            <div
-                className={
-                    classNames("header", stickyHeader ? "header-sticky" : "header-dry")
-                }
-            >
-                <h1>Jarombek Flower Store</h1>
-                <div className="cart">
-                    <div className="cart-icon" onClick={() => history.push("/checkout")}>
-                        <ShoppingCartOutlinedIcon/>
-                        <p>Cart</p>
-                    </div>
-                    {!!cartSize && <NotifyCount count={cartSize} />}
-                </div>
-            </div>
+            <Header cartSize={cartSize} stickyHeader={stickyHeader} />
             <div className="body">
                 {!loading && !!data && data.flowers.map((flower) => (
                     <FlowerCard

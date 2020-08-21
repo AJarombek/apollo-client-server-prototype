@@ -26,3 +26,16 @@ export type FlowersData = {
 export type FlowerData = {
     flower: Flower;
 }
+
+export interface CartItem {
+    id: number;
+    count: number;
+}
+
+export type CartActionTypes = 'add' | 'restore';
+
+export interface CartAction {
+    type: CartActionTypes;
+    id?: number;
+    items?: CartItem[];
+}
