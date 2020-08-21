@@ -37,6 +37,10 @@ export type QueryFlowerArgs = {
     id: Flower["id"]
 };
 
+export type QueryFlowersInArgs = {
+    in: Flower["id"][]
+}
+
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
     parent: TParent,
     args: TArgs,
@@ -69,6 +73,12 @@ export type QueryResolvers<ContextType = Context, ParentType = ResolversTypes["Q
         Array<ResolversTypes["Flower"]>,
         ParentType,
         ContextType
+    >;
+    flowersIn?: Resolver<
+        Array<ResolversTypes["Flower"]>,
+        ParentType,
+        ContextType,
+        QueryFlowersInArgs
     >;
 };
 

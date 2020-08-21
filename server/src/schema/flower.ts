@@ -4,6 +4,7 @@ export default gql`
     extend type Query {
         flower(id: ID!): Flower
         flowers: [Flower]
+        flowersIn(in: [ID]!): [Flower]
     }
 
     type Flower {

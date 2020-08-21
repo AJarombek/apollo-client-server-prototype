@@ -7,6 +7,8 @@ Date: 5/18/2020
 type Query {
     ping: Int
     flower(id: ID!): Flower
+    flowersIn(in: [ID]!): [Flower]
+    flowers: [Flower]
 }
 
 type Mutation {

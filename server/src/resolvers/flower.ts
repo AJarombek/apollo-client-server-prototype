@@ -4,7 +4,7 @@
  * @since 5/22/2020
  */
 
-import { Resolvers, QueryFlowerArgs } from '../types';
+import {Resolvers, QueryFlowerArgs, QueryFlowersInArgs} from '../types';
 import Flower from "../models/flower";
 
 export const resolvers: Resolvers = {
@@ -20,6 +20,9 @@ export const resolvers: Resolvers = {
         },
         flowers: (parent: any) => {
             return Flower.query().orderBy('id');
-        }
+        },
+        flowersIn: (parent: any, args: QueryFlowersInArgs) => {
+            return Flower.query().where('id', 'in', args.in);
+        },
     }
 };

@@ -21,6 +21,7 @@ const GET_FLOWERS = gql`
             image
             price
             salePrice
+            onSale
         }
     }
 `;
@@ -30,30 +31,17 @@ const StoreFront: React.FunctionComponent = () => {
 
     const ref = useRef(null);
 
-    const [stickyHeader, setStickyHeader] = useState<boolean>(false);
     const [showFlowerDetails, setShowFlowerDetails] = useState<boolean>(false);
     const [selectedFlower, setSelectedFlower] = useState<Flower>(null);
 
     const [cart, dispatchCart] = useReducer(cartReducer, []);
 
-    const handleScroll = () => {
-        if (ref.current) {
-            setStickyHeader(ref.current.getBoundingClientRect().top <= -100);
-        }
-    };
-
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-
         const existingCart = localStorage.getItem('cart');
 
         if (existingCart) {
             dispatchCart({ type: 'restore', items: JSON.parse(existingCart) });
         }
-
-        return () => {
-            window.removeEventListener('scroll', () => handleScroll);
-        };
     }, []);
 
     const cartSize = useMemo(
@@ -63,7 +51,7 @@ const StoreFront: React.FunctionComponent = () => {
 
     return (
         <div className="store-front" ref={ref}>
-            <Header cartSize={cartSize} stickyHeader={stickyHeader} />
+            <Header cartSize={cartSize} bodyRef={ref} />
             <div className="body">
                 {!loading && !!data && data.flowers.map((flower) => (
                     <FlowerCard

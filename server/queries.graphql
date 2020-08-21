@@ -17,3 +17,11 @@ query allFlowers {
         url
     }
 }
+
+query flowersIn($in: [ID]!) {
+    flowersIn(in: $in) {
+        id
+        name
+        description
+    }
+}
