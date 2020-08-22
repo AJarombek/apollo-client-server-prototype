@@ -4,40 +4,67 @@
  * @since 8/20/2020
  */
 
-import {CartAction, CartItem} from "../types";
+import {
+    CartAction,
+    CartAddAction,
+    CartDeleteAction,
+    CartItem,
+    CartRestoreAction,
+    CartSetAction
+} from "../types";
 
 export const cartReducer = (state: CartItem[], action: CartAction): CartItem[] => {
-    if (action.type === 'add') {
-        const existingItems = state.filter((item) => item.id === action.id);
-        let newState;
+    switch (action.type) {
+        case "add":
+            return cartAddReducer(state, action);
+        case "restore":
+            return cartRestoreReducer(state, action);
+        case "set":
+            return cartSetReducer(state, action);
+        case "delete":
+            return cartDeleteReducer(state, action);
+    }
+};
 
-        if (existingItems.length > 0) {
-            newState = [
-                ...state.filter((item) => item.id !== action.id),
-                {
-                    id: existingItems[0].id,
-                    count: existingItems[0].count + 1
-                }
-            ]
-        } else {
-            newState = [
-                ...state,
-                {
-                    id: action.id,
-                    count: 1
-                }
-            ]
-        }
+const cartAddReducer = (state: CartItem[], action: CartAddAction) => {
+    const existingItems = state.filter((item) => item.id === action.id);
+    let newState;
 
-        localStorage.setItem('cart', JSON.stringify(newState));
-        return newState;
+    if (existingItems.length > 0) {
+        newState = [
+            ...state.filter((item) => item.id !== action.id),
+            {
+                id: existingItems[0].id,
+                count: existingItems[0].count + 1
+            }
+        ]
+    } else {
+        newState = [
+            ...state,
+            {
+                id: action.id,
+                count: 1
+            }
+        ]
     }
 
-    if (action.type === 'set') {
+    localStorage.setItem('cart', JSON.stringify(newState));
+    return newState;
+};
 
-    }
+const cartSetReducer = (state: CartItem[], action: CartSetAction) => {
+    const newState = [...state];
 
-    if (action.type === 'restore') {
-        return action.items;
-    }
+    const item = state.filter((item) => item.id === action.id)[0];
+    item.count = action.count;
+
+    return newState;
+};
+
+const cartRestoreReducer = (state: CartItem[], action: CartRestoreAction) => {
+    return action.items;
+};
+
+const cartDeleteReducer = (state: CartItem[], action: CartDeleteAction) => {
+    return state.filter((item) => item.id !== action.id);
 };

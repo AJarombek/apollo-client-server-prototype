@@ -54,6 +54,25 @@ const Checkout: React.FunctionComponent = () => {
         [cart]
     );
 
+    const totalCost = useMemo(
+        () => {
+            if (cart && data?.flowersIn) {
+                return cart.reduce<number>((total: number, item: CartItem) => {
+                    const flower: Flower = data.flowersIn.filter(
+                        (flower: Flower) => flower.id === item.id
+                    )[0];
+
+                    return total + Math.max(item.count, 0) * (
+                        flower.onSale ? flower.salePrice : flower.price
+                    );
+                }, 0);
+            } else {
+                return 0;
+            }
+        },
+        [cart, data]
+    );
+
     return (
         <div className="checkout" ref={ref}>
             <Header cartSize={cartSize} bodyRef={ref} />
@@ -64,12 +83,16 @@ const Checkout: React.FunctionComponent = () => {
                             <CheckoutItem
                                 key={flower.id}
                                 flower={flower}
-                                quantity={cart.filter(item => item.id === flower.id)[0].count}
+                                quantity={
+                                    (cart.filter(item => item.id === flower.id)[0] ?? {}).count
+                                }
+                                cartSet={(id, count) => dispatchCart({ type: 'set', id, count })}
+                                cartDelete={(id) => dispatchCart({ type: 'set', id, count: -1 })}
                             />
                         ))}
                         <div className="grand-total">
                             <p>Total:</p>
-                            <p>$0.00</p>
+                            <p>${totalCost.toFixed(2)}</p>
                         </div>
                     </div>
                 </div>
