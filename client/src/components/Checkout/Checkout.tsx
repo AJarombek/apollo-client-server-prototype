@@ -8,8 +8,11 @@ import React, {useEffect, useMemo, useReducer, useRef} from 'react';
 import {useLazyQuery} from 'react-apollo';
 import Header from "../Header";
 import {cartReducer} from "../../reducers/cart";
-import {CartItem} from "../../types";
+import {CartItem, Flower} from "../../types";
 import gql from "graphql-tag";
+import CheckoutItem from "../CheckoutItem";
+import {AJButton} from "jarombek-react-components";
+import classNames from "classnames";
 
 const GET_FLOWERS_FOR_CHECKOUT = gql`
     query flowersForCheckout($in: [ID]!) {
@@ -55,7 +58,38 @@ const Checkout: React.FunctionComponent = () => {
         <div className="checkout" ref={ref}>
             <Header cartSize={cartSize} bodyRef={ref} />
             <div className="body">
-
+                <div className="cart-items">
+                    <div>
+                        {!loading && !!data && data.flowersIn.map((flower: Flower) => (
+                            <CheckoutItem
+                                key={flower.id}
+                                flower={flower}
+                                quantity={cart.filter(item => item.id === flower.id)[0].count}
+                            />
+                        ))}
+                        <p>Total:</p>
+                        <p>$0.00</p>
+                    </div>
+                </div>
+                <div className="actions">
+                    <AJButton
+                        type="contained"
+                        onClick={() => {}}
+                        disabled={!cartSize}
+                        className={classNames(
+                            cartSize ? "place-order-enabled" : "place-order-disabled"
+                        )}
+                    >
+                        Place Order
+                    </AJButton>
+                    <AJButton
+                        type="text"
+                        onClick={() => {}}
+                        disabled={false}
+                    >
+                        Continue Shopping
+                    </AJButton>
+                </div>
             </div>
         </div>
     );

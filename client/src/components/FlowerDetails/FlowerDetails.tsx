@@ -85,7 +85,7 @@ const FlowerDetails: React.FunctionComponent<IProps> = ({ flowerId, onClose, onA
                             disabled={!flowerCount}
                             className={classNames(
                                 "add-to-cart-button",
-                                !!flowerCount ? "add-to-cart-enabled" : "add-to-cart-disabled"
+                                flowerCount ? "add-to-cart-enabled" : "add-to-cart-disabled"
                             )}
                         >
                             Add to Cart
