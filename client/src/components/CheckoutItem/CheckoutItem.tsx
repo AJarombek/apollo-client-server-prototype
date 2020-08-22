@@ -15,20 +15,22 @@ interface IProps {
 const CheckoutItem: React.FunctionComponent<IProps> = ({ flower, quantity }) => {
     return (
         <div className="checkout-item">
-            <p>&#x4d;</p>
+            <p className="remove-icon">&#x4d;</p>
             <img src={`/asset/${flower.image}`} alt="" />
-            <div>
-                <p>{flower.name}</p>
-                <div>
+            <div className="details">
+                <p className="flower-name">{flower.name}</p>
+                <div className="flower-quantity">
                     <p>Qty:</p>
                     <input type="number" value={quantity} max={flower.count} onClick={() => {}} />
-                    <div>
-                        <p>${flower.price}</p>
-                        {flower.onSale && <p>${flower.salePrice}</p>}
-                    </div>
+                </div>
+                <div className="flower-prices">
+                    <p>${flower.price}</p>
+                    {flower.onSale && <p>${flower.salePrice}</p>}
                 </div>
             </div>
-            <p>${(flower.onSale ? flower.salePrice : flower.price) * quantity}</p>
+            <p className="total-cost">
+                ${(flower.onSale ? flower.salePrice : flower.price) * quantity}
+            </p>
         </div>
     );
 };

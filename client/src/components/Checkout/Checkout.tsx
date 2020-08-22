@@ -67,8 +67,10 @@ const Checkout: React.FunctionComponent = () => {
                                 quantity={cart.filter(item => item.id === flower.id)[0].count}
                             />
                         ))}
-                        <p>Total:</p>
-                        <p>$0.00</p>
+                        <div className="grand-total">
+                            <p>Total:</p>
+                            <p>$0.00</p>
+                        </div>
                     </div>
                 </div>
                 <div className="actions">

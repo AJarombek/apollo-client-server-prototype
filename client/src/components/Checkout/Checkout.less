@@ -4,11 +4,29 @@
  * Date: 8/20/2020
  */
 
+@import "../../vars";
+
 .checkout {
   min-height: 100vh;
   background-color: lighten(@lilac, 10%);
 
   > .body {
 
+    .cart-items {
+      margin-top: 50px;
+
+      .grand-total {
+        display: flex;
+
+        p:nth-child(1) {
+          font-family: 'RobotoSlab-Bold', Helvetica, sans-serif;
+        }
+
+        p:nth-child(2) {
+          font-family: 'Roboto-Bold', Helvetica, sans-serif;
+          margin: 0 20px 0 auto;
+        }
+      }
+    }
   }
 }
