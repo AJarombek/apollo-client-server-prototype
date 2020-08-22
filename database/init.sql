@@ -41,60 +41,64 @@ INSERT INTO plant_type (type) VALUES ('perennial');
 INSERT INTO plant_type (type) VALUES ('shrub');
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    1, 'Azalea', 'azalea.jpg', 'shrub', true, 5, 19.99, 'Pink flowering shrub.'
+    1, 'Azalea', 'azalea.jpg', 'shrub', true, false, 5, 19.99, 14.99, 'Pink flowering shrub.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    2, 'Baby Primrose', 'baby-primrose.jpg', 'perennial', true, 5, 7.99,
+    2, 'Baby Primrose', 'baby-primrose.jpg', 'perennial', true, true, 5, 7.99, 5.99,
     'Small yellow flowering perennial.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    3, 'Geranium', 'geranium.jpg', 'annual', true, 5, 5.99,
+    3, 'Geranium', 'geranium.jpg', 'annual', true, false, 5, 5.99, 4.99,
     'Potted annual Geranium, good for decks and patios.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    4, 'Heart Flower', 'heart-flower.jpg', 'perennial', true, 5, 12.31,
+    4, 'Heart Flower', 'heart-flower.jpg', 'perennial', true, false, 5, 12.31, 2.26,
     'Beautiful pink heart flowers.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    5, 'Lilac', 'lilac.jpg', 'perennial', true, 5, 29.99, 'Purple flowers perfect for bouquets.'
+    5, 'Lilac', 'lilac.jpg', 'perennial', true, false, 5, 29.99, 24.99,
+    'Purple flowers perfect for bouquets.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    6, 'Periwinkle', 'periwinkle.jpg', 'perennial', true, 5, 5.99, 'Small multi-shaded pink flower.'
+    6, 'Periwinkle', 'periwinkle.jpg', 'perennial', true, true, 5, 5.99, 4.49,
+    'Small multi-shaded pink flower.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    7, 'Pulmonaria', 'pulmonaria.jpg', 'perennial', true, 5, 9.99,
+    7, 'Pulmonaria', 'pulmonaria.jpg', 'perennial', true, true, 5, 9.99, 7.49,
     'Small flowers which transition from pink to purple as they bloom.  One of my favorites.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    8, 'Sage', 'sage.jpg', 'perennial', true, 5, 8.99, 'Purple sage.  Great garden plant.'
+    8, 'Sage', 'sage.jpg', 'perennial', true, false, 5, 8.99, 5.99,
+    'Purple sage.  Great garden plant.'
 );
 
 INSERT INTO flower (
-    id, name, image, type, in_stock, count, price, description
+    id, name, image, type, in_stock, on_sale, count, price, sale_price, description
 ) VALUES (
-    9, 'Narrowleaf Zinnia', 'zinnia.jpg', 'perennial', true, 5, 12.99, 'Orange flowering plant.'
+    9, 'Narrowleaf Zinnia', 'zinnia.jpg', 'perennial', true, true, 5, 12.99, 9.99,
+    'Orange flowering plant.'
 );
 

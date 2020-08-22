@@ -13,6 +13,7 @@ type Query {
 
 type Mutation {
     _: Boolean
+    purchaseFlowers(purchases: [FlowerPurchase]): Boolean
 }
 
 type Subscription {
@@ -34,4 +35,9 @@ type Flower {
 
 enum FlowerLifespan {
     ANNUAL, PERENNIAL, SHRUB
+}
+
+input FlowerPurchase {
+    id: ID!,
+    count: Int!
 }

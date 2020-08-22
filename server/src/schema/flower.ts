@@ -6,6 +6,10 @@ export default gql`
         flowers: [Flower]
         flowersIn(in: [ID]!): [Flower]
     }
+    
+    extend type Mutation {
+        purchaseFlowers(purchases: [FlowerPurchase]): Boolean
+    }
 
     type Flower {
         id: ID!,
@@ -18,6 +22,11 @@ export default gql`
         price: Float,
         salePrice: Float,
         description: String
+    }
+
+    input FlowerPurchase {
+        id: ID!,
+        count: Int!
     }
 
     enum FlowerLifespan {

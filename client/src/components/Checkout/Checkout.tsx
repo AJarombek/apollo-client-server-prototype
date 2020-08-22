@@ -50,7 +50,7 @@ const Checkout: React.FunctionComponent = () => {
     }, [cart]);
 
     const cartSize = useMemo(
-        () => cart.reduce<number>((acc: number, item: CartItem) => acc + item.count, 0),
+        () => cart.reduce<number>((acc: number, item: CartItem) => acc + Math.max(item.count, 0), 0),
         [cart]
     );
 

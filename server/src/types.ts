@@ -31,6 +31,11 @@ export type Flower = {
     description: Maybe<Scalars["String"]>;
 };
 
+export type FlowerPurchase = {
+    id: Scalars["ID"];
+    count: Scalars["Int"];
+}
+
 export type PlantType = "ANNUAL" | "PERENNIAL" | "SHRUB";
 
 export type QueryFlowerArgs = {
@@ -39,7 +44,11 @@ export type QueryFlowerArgs = {
 
 export type QueryFlowersInArgs = {
     in: Flower["id"][]
-}
+};
+
+export type MutationPurchaseFlowersArgs = {
+    purchases: FlowerPurchase[]
+};
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
     parent: TParent,
@@ -53,7 +62,9 @@ export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
 
 export type ResolversTypes = {
     Query: {};
-    Int: any;
+    Mutation: {};
+    Int: number;
+    Boolean: boolean;
     Flower: any;
 };
 
@@ -82,8 +93,18 @@ export type QueryResolvers<ContextType = Context, ParentType = ResolversTypes["Q
     >;
 };
 
+export type MutationResolvers<ContextType = Context, ParentType = ResolversTypes["Mutation"]> = {
+    purchaseFlowers?: Resolver<
+        Maybe<ResolversTypes["Boolean"]>,
+        ParentType,
+        ContextType,
+        MutationPurchaseFlowersArgs
+    >;
+};
+
 export type Resolvers<ContextType = Context> = {
-    Query?: QueryResolvers<ContextType>
+    Query?: QueryResolvers<ContextType>;
+    Mutation?: MutationResolvers<ContextType>;
 };
 
 export type IResolvers<ContextType = Context> = Resolvers<ContextType>;
