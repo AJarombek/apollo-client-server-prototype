@@ -33,6 +33,10 @@ export const cartReducer = (state: CartItem[], action: CartAction): CartItem[] =
         return newState;
     }
 
+    if (action.type === 'set') {
+
+    }
+
     if (action.type === 'restore') {
         return action.items;
     }

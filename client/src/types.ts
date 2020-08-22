@@ -32,10 +32,25 @@ export interface CartItem {
     count: number;
 }
 
-export type CartActionTypes = 'add' | 'restore';
+export type CartAddActionType = 'add';
+export type CartRestoreActionType = 'restore';
+export type CartSetActionType = 'set';
+export type CartActionTypes = CartAddActionType | CartRestoreActionType | CartSetActionType;
 
-export interface CartAction {
-    type: CartActionTypes;
-    id?: number;
-    items?: CartItem[];
+export interface CartAddAction {
+    type: CartAddActionType;
+    id: number;
 }
+
+export interface CartRestoreAction {
+    type: CartRestoreActionType;
+    items: CartItem[];
+}
+
+export interface CartSetAction {
+    type: CartSetActionType;
+    id: number;
+    count: number;
+}
+
+export type CartAction = CartAddAction | CartRestoreAction | CartSetAction;
