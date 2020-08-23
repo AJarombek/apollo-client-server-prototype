@@ -19,16 +19,35 @@ export const resolvers: Resolvers = {
             const flowers = await Flower.query().where('id', args.id);
 
             if (flowers) {
-                return flowers[0];
+                return {
+                    ...flowers[0],
+                    inStock: flowers[0].in_stock,
+                    onSale: flowers[0].on_sale,
+                    salePrice: flowers[0].sale_price,
+                };
             } else {
                 return null;
             }
         },
-        flowers: (parent: any) => {
-            return Flower.query().orderBy('id');
+        flowers: async (parent: any) => {
+            const result = await Flower.query().orderBy('id');
+
+            return result.map(flower => ({
+                ...flower,
+                inStock: flower.in_stock,
+                onSale: flower.on_sale,
+                salePrice: flower.sale_price,
+            }));
         },
-        flowersIn: (parent: any, args: QueryFlowersInArgs) => {
-            return Flower.query().where('id', 'in', args.in);
+        flowersIn: async (parent: any, args: QueryFlowersInArgs) => {
+            const result = await Flower.query().where('id', 'in', args.in);
+
+            return result.map(flower => ({
+                ...flower,
+                inStock: flower.in_stock,
+                onSale: flower.on_sale,
+                salePrice: flower.sale_price,
+            }));
         },
     },
     Mutation: {

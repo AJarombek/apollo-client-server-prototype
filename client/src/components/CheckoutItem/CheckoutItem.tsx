@@ -6,6 +6,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {Flower} from "../../types";
+import classNames from "classnames";
 
 interface IProps {
     flower?: Flower;
@@ -61,7 +62,7 @@ const CheckoutItem: React.FunctionComponent<IProps> = ({
                             onChange={onChangeQuantity}
                         />
                     </div>
-                    <div className="flower-prices">
+                    <div className={classNames("flower-prices", flower.onSale && "sale-prices")}>
                         <p>${flower.price}</p>
                         {flower.onSale && <p>${flower.salePrice}</p>}
                     </div>

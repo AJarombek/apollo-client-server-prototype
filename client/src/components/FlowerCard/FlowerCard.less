@@ -34,10 +34,29 @@
         cursor: pointer;
       }
 
-      p {
-        font-family: 'Roboto-Regular', Helvetica, sans-serif;
-        font-size: 14px;
-        margin: 0 0 10px 20px;
+      .prices {
+        margin: 15px 0 10px 20px;
+
+        p {
+          font-family: 'Roboto-Regular', Helvetica, sans-serif;
+          font-size: 14px;
+          margin: 0;
+        }
+
+        &.sale-prices {
+          display: flex;
+
+          p:nth-child(1) {
+            text-decoration: line-through;
+            color: #444;
+          }
+
+          p:nth-child(2) {
+            font-family: 'Roboto-Bold', Helvetica, sans-serif;
+            padding-left: 8px;
+            color: @darkGreen;
+          }
+        }
       }
     }
 

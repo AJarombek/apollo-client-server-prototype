@@ -7,14 +7,14 @@ Date: 7/29/2020
 query oneFlower {
     flower(id: 1) {
         name
-        url
+        image
     }
 }
 
 query allFlowers {
     flowers {
         name
-        url
+        image
     }
 }
 

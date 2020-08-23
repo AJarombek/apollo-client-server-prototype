@@ -54,8 +54,28 @@
     }
 
     .flower-prices {
-      font-family: 'Roboto-Regular', Helvetica, sans-serif;
-      display: flex;
+      margin-top: 18px;
+      
+      p {
+        font-family: 'Roboto-Regular', Helvetica, sans-serif;
+        font-size: 16px;
+        margin: 0;
+      }
+
+      &.sale-prices {
+        display: flex;
+
+        p:nth-child(1) {
+          text-decoration: line-through;
+          color: #444;
+        }
+
+        p:nth-child(2) {
+          font-family: 'Roboto-Bold', Helvetica, sans-serif;
+          padding-left: 8px;
+          color: @darkGreen;
+        }
+      }
     }
   }
 

@@ -9,6 +9,7 @@ import React from 'react';
 import {Flower} from "../../types";
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import {AJTextButton} from "jarombek-react-components";
+import classNames from "classnames";
 
 interface IProps {
     flower: Flower;
@@ -23,7 +24,10 @@ const FlowerCard: React.FunctionComponent<IProps> = ({ flower, onShowDetails, on
             <div className="content">
                 <div className="details">
                     <h6 onClick={onShowDetails}>{flower.name}</h6>
-                    <p>${flower.price}</p>
+                    <div className={classNames("prices", flower.onSale && "sale-prices")}>
+                        <p>${flower.price}</p>
+                        {flower.onSale && <p>${flower.salePrice}</p>}
+                    </div>
                 </div>
                 <div className="actions">
                     <AJTextButton>
