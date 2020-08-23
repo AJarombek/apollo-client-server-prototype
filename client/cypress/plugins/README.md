@@ -6,4 +6,4 @@ Plugins used with the Cypress end-to-end tests (such as code coverage).
 
 | Filename     | Description                                                                               |
 |--------------|-------------------------------------------------------------------------------------------|
-| `index.js`   | Initialize the plugins used with Cypress.                                                 |
+| `index.ts`   | Initialize the plugins used with Cypress.                                                 |

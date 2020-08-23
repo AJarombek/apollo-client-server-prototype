@@ -1,4 +1,6 @@
 .idea
 node_modules
+client/.nyc_output
+client/coverage
 server/dist
 **/.terraform
