@@ -25,3 +25,7 @@ query flowersIn($in: [ID]!) {
         description
     }
 }
+
+mutation purchaseFlowers($purchases: [FlowerPurchase]!) {
+    purchaseFlowers(purchases: $purchases)
+}

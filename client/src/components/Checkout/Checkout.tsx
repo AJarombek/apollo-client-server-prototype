@@ -5,7 +5,7 @@
  */
 
 import React, {useEffect, useMemo, useReducer, useRef} from 'react';
-import {useLazyQuery} from 'react-apollo';
+import {useLazyQuery, useMutation} from 'react-apollo';
 import Header from "../Header";
 import {cartReducer} from "../../reducers/cart";
 import {CartItem, Flower} from "../../types";
@@ -13,6 +13,7 @@ import gql from "graphql-tag";
 import CheckoutItem from "../CheckoutItem";
 import {AJButton} from "jarombek-react-components";
 import classNames from "classnames";
+import {useHistory} from "react-router-dom";
 
 const GET_FLOWERS_FOR_CHECKOUT = gql`
     query flowersForCheckout($in: [ID]!) {
@@ -28,10 +29,25 @@ const GET_FLOWERS_FOR_CHECKOUT = gql`
     }
 `;
 
+const PURCHASE_FLOWERS = gql`
+    mutation purchaseFlowers($purchases: [FlowerPurchase]!) {
+        purchaseFlowers(purchases: $purchases)
+    }
+`;
+
 const Checkout: React.FunctionComponent = () => {
+    const history = useHistory();
+
     const ref = useRef(null);
 
     const [getFlowers, { loading, data }] = useLazyQuery(GET_FLOWERS_FOR_CHECKOUT);
+
+    const [purchaseFlowers] = useMutation(PURCHASE_FLOWERS, {
+        onCompleted({ purchaseFlowers }) {
+            dispatchCart({ type: 'empty' });
+            history.push('/');
+        }
+    });
 
     const [cart, dispatchCart] = useReducer(cartReducer, []);
 
@@ -99,7 +115,9 @@ const Checkout: React.FunctionComponent = () => {
                 <div className="actions">
                     <AJButton
                         type="contained"
-                        onClick={() => {}}
+                        onClick={() => purchaseFlowers({ variables: {
+                            purchases: cart.filter((item: CartItem) => item.count > 0) }
+                        })}
                         disabled={!cartSize}
                         className={classNames(
                             cartSize ? "place-order-enabled" : "place-order-disabled"

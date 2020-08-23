@@ -45,7 +45,13 @@
       padding: 25px 0 75px 0;
 
       .aj-contained-button {
-        background-color: @brightLilac;
+        &.place-order-enabled {
+          background-color: @brightLilac;
+        }
+
+        &.place-order-disabled {
+          background-color: @darkLilac;
+        }
       }
 
       .aj-text-button {

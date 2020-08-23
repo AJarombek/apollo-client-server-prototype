@@ -23,10 +23,12 @@ export const cartReducer = (state: CartItem[], action: CartAction): CartItem[] =
             return cartSetReducer(state, action);
         case "delete":
             return cartDeleteReducer(state, action);
+        case "empty":
+            return cartEmptyReducer();
     }
 };
 
-const cartAddReducer = (state: CartItem[], action: CartAddAction) => {
+const cartAddReducer = (state: CartItem[], action: CartAddAction): CartItem[] => {
     const existingItems = state.filter((item) => item.id === action.id);
     let newState;
 
@@ -52,7 +54,7 @@ const cartAddReducer = (state: CartItem[], action: CartAddAction) => {
     return newState;
 };
 
-const cartSetReducer = (state: CartItem[], action: CartSetAction) => {
+const cartSetReducer = (state: CartItem[], action: CartSetAction): CartItem[] => {
     const newState = [...state];
 
     const item = state.filter((item) => item.id === action.id)[0];
@@ -61,10 +63,15 @@ const cartSetReducer = (state: CartItem[], action: CartSetAction) => {
     return newState;
 };
 
-const cartRestoreReducer = (state: CartItem[], action: CartRestoreAction) => {
+const cartRestoreReducer = (state: CartItem[], action: CartRestoreAction): CartItem[] => {
     return action.items;
 };
 
-const cartDeleteReducer = (state: CartItem[], action: CartDeleteAction) => {
+const cartDeleteReducer = (state: CartItem[], action: CartDeleteAction): CartItem[] => {
     return state.filter((item) => item.id !== action.id);
+};
+
+const cartEmptyReducer = (): CartItem[] => {
+    localStorage.setItem('cart', JSON.stringify([]));
+    return [];
 };

@@ -36,6 +36,7 @@ export type CartAddActionType = 'add';
 export type CartRestoreActionType = 'restore';
 export type CartSetActionType = 'set';
 export type CartDeleteActionType = 'delete';
+export type CartEmptyActionType = 'empty';
 
 export interface CartAddAction {
     type: CartAddActionType;
@@ -58,4 +59,13 @@ export interface CartDeleteAction {
     id: number;
 }
 
-export type CartAction = CartAddAction | CartRestoreAction | CartSetAction | CartDeleteAction;
+export interface CartEmptyAction {
+    type: CartEmptyActionType;
+}
+
+export type CartAction =
+    CartAddAction |
+    CartRestoreAction |
+    CartSetAction |
+    CartDeleteAction |
+    CartEmptyAction;
