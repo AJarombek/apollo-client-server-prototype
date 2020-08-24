@@ -9,6 +9,7 @@ sub-directory.
 | Filename                 | Description                                                                |
 |--------------------------|----------------------------------------------------------------------------|
 | `components`             | React component source code.                                               |
+| `reducers`               | Reducer functions for React hooks.                                         |
 | `index.html`             | HTML template that loads the React application JavaScript bundle.          |
 | `index.less`             | Entry point to the Less stylesheets.                                       |
 | `index.tsx`              | React and Apollo Client bootstrapping code.                                |

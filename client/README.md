@@ -7,7 +7,9 @@ Apollo Server for data.
 
 | Filename                 | Description                                                                |
 |--------------------------|----------------------------------------------------------------------------|
+| `cypress`                | Cypress end-to-end tests for the client application.                       |
 | `src`                    | React/Apollo/Less source code for the client application.                  |
+| `test`                   | Jest/Enzyme unit/integration/snapshot tests for the client application.    |
 | `.babelrc`               | Configuration for the Babel transpiler.                                    |
 | `.eslintrc.js`           | Configuration for ESLint JavaScript/Typescript linting.                    |
 | `.prettierrc.js`         | Configuration for the Prettier automated code formatter.                   |

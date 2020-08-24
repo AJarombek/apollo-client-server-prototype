@@ -41,7 +41,7 @@ const Header: React.FunctionComponent<IProps> = ({ cartSize, bodyRef }) => {
                     classNames("header-nav", stickyHeader ? "header-sticky" : "header-dry")
                 }
             >
-                <h1>Jarombek Flower Store</h1>
+                <h1 onClick={() => history.push('/#')}>Jarombek Flower Store</h1>
                 <div className="cart">
                     <div className="cart-icon" onClick={() => history.push("/checkout")}>
                         <ShoppingCartOutlinedIcon/>
