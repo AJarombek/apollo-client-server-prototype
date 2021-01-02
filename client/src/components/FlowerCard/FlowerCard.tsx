@@ -6,40 +6,40 @@
  */
 
 import React from 'react';
-import {Flower} from "../../types";
+import { Flower } from '../../types';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import {AJTextButton} from "jarombek-react-components";
-import classNames from "classnames";
+import { AJTextButton } from 'jarombek-react-components';
+import classNames from 'classnames';
 
-interface IProps {
-    flower: Flower;
-    onShowDetails: (event: React.MouseEvent<HTMLElement>) => any;
-    onAddToCart: (event: React.MouseEvent<HTMLDivElement>) => any;
+interface Props {
+  flower: Flower;
+  onShowDetails: (event: React.MouseEvent<HTMLElement>) => void;
+  onAddToCart: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const FlowerCard: React.FunctionComponent<IProps> = ({ flower, onShowDetails, onAddToCart }) => {
-    return (
-        <div className="flower-card">
-            <img src={`/asset/${flower.image}`} alt="" onClick={onShowDetails} />
-            <div className="content">
-                <div className="details">
-                    <h6 onClick={onShowDetails}>{flower.name}</h6>
-                    <div className={classNames("prices", flower.onSale && "sale-prices")}>
-                        <p>${flower.price}</p>
-                        {flower.onSale && <p>${flower.salePrice}</p>}
-                    </div>
-                </div>
-                <div className="actions">
-                    <AJTextButton>
-                        <div className="add-to-cart" onClick={onAddToCart}>
-                            <p>Add to Cart</p>
-                            <AddRoundedIcon />
-                        </div>
-                    </AJTextButton>
-                </div>
-            </div>
+const FlowerCard: React.FunctionComponent<Props> = ({ flower, onShowDetails, onAddToCart }) => {
+  return (
+    <div className="flower-card">
+      <img src={`/asset/${flower.image}`} alt="" onClick={onShowDetails} />
+      <div className="content">
+        <div className="details">
+          <h6 onClick={onShowDetails}>{flower.name}</h6>
+          <div className={classNames('prices', flower.onSale && 'sale-prices')}>
+            <p>${flower.price}</p>
+            {flower.onSale && <p>${flower.salePrice}</p>}
+          </div>
         </div>
-    );
+        <div className="actions">
+          <AJTextButton>
+            <div className="add-to-cart" onClick={onAddToCart}>
+              <p>Add to Cart</p>
+              <AddRoundedIcon />
+            </div>
+          </AJTextButton>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default FlowerCard;

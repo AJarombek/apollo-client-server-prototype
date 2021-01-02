@@ -8,7 +8,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import StoreFront from '../StoreFront';
-import Checkout from "../Checkout";
+import Checkout from '../Checkout';
 
 const App: React.FC = () => (
   <Switch>

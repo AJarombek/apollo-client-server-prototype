@@ -7,16 +7,16 @@
 
 import React from 'react';
 
-interface IProps {
-    count?: number
+interface Props {
+  count?: number;
 }
 
-const NotifyCount: React.FunctionComponent<IProps> = ({ count = 0 }) => {
-    return (
-        <div className="notify-count">
-            <p>{count}</p>
-        </div>
-    );
+const NotifyCount: React.FunctionComponent<Props> = ({ count = 0 }) => {
+  return (
+    <div className="notify-count">
+      <p>{count}</p>
+    </div>
+  );
 };
 
 export default NotifyCount;

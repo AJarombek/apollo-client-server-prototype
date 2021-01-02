@@ -1,3 +1,3 @@
-import CheckoutItem from "./CheckoutItem";
+import CheckoutItem from './CheckoutItem';
 
 export default CheckoutItem;

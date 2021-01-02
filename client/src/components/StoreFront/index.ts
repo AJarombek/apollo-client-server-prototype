@@ -1,3 +1,3 @@
-import StoreFront from "./StoreFront";
+import StoreFront from './StoreFront';
 
 export default StoreFront;

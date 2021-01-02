@@ -15,14 +15,14 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import App from './components/App';
 
 const httpLink = new HttpLink({
-  uri: '/graphql',
+  uri: '/graphql'
 });
 
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   link: httpLink,
-  cache,
+  cache
 });
 
 const RoutedApp: React.FC = () => (

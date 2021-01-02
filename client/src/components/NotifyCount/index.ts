@@ -1,3 +1,3 @@
-import NotifyCount from "./NotifyCount";
+import NotifyCount from './NotifyCount';
 
 export default NotifyCount;
