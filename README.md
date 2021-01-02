@@ -7,10 +7,21 @@ React.js and the back-end is Node.js/Express.  Both client and server are writte
 
 ### Commands
 
+**First Time Setup**
+
+```bash
+nvm install v13.9.0
+npm install -g yarn
+
+cd server && yarn && cd ..
+cd client && yarn && cd ..
+```
+
 **Client**
 
 ```bash
 cd client
+nvm use v13.9.0
 yarn start
 ```
 
@@ -18,6 +29,7 @@ yarn start
 
 ```bash
 cd server
+nvm use v13.9.0
 yarn build
 node dist/app.js
 ```
@@ -26,6 +38,7 @@ node dist/app.js
 
 ```bash
 cd database
+docker-compose up --build
 ```
 
 ### Files

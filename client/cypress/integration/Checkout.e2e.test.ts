@@ -5,14 +5,13 @@
  */
 
 describe('Checkout E2E Tests', () => {
+  beforeEach(() => {
+    cy.server();
+    cy.visit('/checkout');
+  });
 
-    beforeEach(() => {
-        cy.server();
-        cy.visit('/checkout');
-    });
-
-    it('clicking the header reloads the page', () => {
-        cy.get('h1').contains('Jarombek Flower Store').click();
-        cy.url().should('include', '/');
-    });
+  it('clicking the header reloads the page', () => {
+    cy.get('h1').contains('Jarombek Flower Store').click();
+    cy.url().should('include', '/');
+  });
 });
