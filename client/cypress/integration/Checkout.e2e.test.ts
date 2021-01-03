@@ -6,13 +6,14 @@
 
 describe('Checkout E2E Tests', () => {
   beforeEach(() => {
-    cy.server();
+    cy.interceptGraphQL();
     cy.visit('/checkout');
   });
 
   it('clicking the header goes back to the home page', () => {
     cy.url().should('include', '/checkout');
     cy.get('h1').contains('Jarombek Flower Store').click();
+    cy.wait('@gqlAllFlowers');
     cy.url().should('not.include', '/checkout');
     cy.url().should('include', '/');
   });
@@ -26,12 +27,14 @@ describe('Checkout E2E Tests', () => {
   it('continue shopping returns to the storefront', () => {
     cy.url().should('include', '/checkout');
     cy.get('button').contains('Continue Shopping').click();
+    cy.wait('@gqlAllFlowers');
     cy.url().should('not.include', '/checkout');
     cy.url().should('include', '/');
   });
 
   it('populates the cart if there is data in localstorage', () => {
     cy.setLocalStorageCart();
+    cy.wait('@gqlFlowersForCheckout');
 
     // Baby Primrose and Pulmonaria exist amongst the checkout items.
     cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
@@ -44,12 +47,14 @@ describe('Checkout E2E Tests', () => {
 
   it('is able to purchase items that were populated from localstorage', () => {
     cy.setLocalStorageCart();
+    cy.wait('@gqlFlowersForCheckout');
 
     cy.get('.checkout-item').should('have.length', 2);
     cy.get('.notify-count').should('contain.text', 2);
 
     cy.get('.place-order-enabled').should('exist').click();
 
+    cy.wait('@gqlAllFlowers');
     cy.url().should('not.include', '/checkout');
     cy.url().should('include', '/');
     cy.get('.notify-count').should('not.exist');
@@ -57,6 +62,7 @@ describe('Checkout E2E Tests', () => {
 
   it('is able to change the quantities of items in the cart', () => {
     cy.setLocalStorageCart();
+    cy.wait('@gqlFlowersForCheckout');
 
     cy.get('.checkout-item').should('have.length', 2);
     cy.get('.notify-count').should('contain.text', 2);
@@ -91,6 +97,7 @@ describe('Checkout E2E Tests', () => {
 
   it('setting the quantity to -1 reverts to 0', () => {
     cy.setLocalStorageCart();
+    cy.wait('@gqlFlowersForCheckout');
 
     cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
     cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 2);
@@ -109,6 +116,7 @@ describe('Checkout E2E Tests', () => {
 
   it('setting the quantity to a number greater than whats in stock reverts it to the full stock number', () => {
     cy.setLocalStorageCart();
+    cy.wait('@gqlFlowersForCheckout');
 
     cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
     cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 2);
@@ -129,6 +137,7 @@ describe('Checkout E2E Tests', () => {
 
   it('is able to delete items from the cart', () => {
     cy.setLocalStorageCart();
+    cy.wait('@gqlFlowersForCheckout');
 
     cy.get('.checkout-item').should('have.length', 2);
     cy.get('.notify-count').should('contain.text', 2);

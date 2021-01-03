@@ -6,16 +6,18 @@
 
 describe('StoreFront E2E Tests', () => {
   beforeEach(() => {
-    cy.server();
+    cy.interceptGraphQL();
   });
 
   it('has the expected number of cards', () => {
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
     cy.get('.flower-card').should('have.length', 9);
   });
 
   it("adds items to the cart when clicking 'Add to Cart +'", () => {
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
     cy.get('.notify-count').should('not.exist');
 
     cy.get('button .add-to-cart').eq(0).click();
@@ -30,16 +32,19 @@ describe('StoreFront E2E Tests', () => {
 
   it('clicking the header reloads the page', () => {
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
     cy.get('h1').contains('Jarombek Flower Store').click();
     cy.url().should('include', '/');
   });
 
   it('clicking a flower picture shows a modal with additional details', () => {
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
     cy.get('.flower-details').should('not.exist');
     cy.get('.flower-card .details > h6').eq(0).should('contain', 'Azalea');
 
     cy.get('.flower-card > img').eq(0).click();
+    cy.wait('@gqlFlowerDetails');
 
     cy.get('.flower-details').should('exist');
     cy.get('.flower-details .header .name').should('contain.text', 'Azalea');
@@ -47,9 +52,11 @@ describe('StoreFront E2E Tests', () => {
 
   it('can add a flower to the cart from the additional details modal', () => {
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
     cy.get('.notify-count').should('not.exist');
 
     cy.get('.flower-card > img').eq(0).click();
+    cy.wait('@gqlFlowerDetails');
     cy.get('.flower-details .footer button').contains('Add to Cart').click();
 
     cy.get('.notify-count').contains('1').should('exist');
@@ -63,14 +70,17 @@ describe('StoreFront E2E Tests', () => {
     localStorage.setItem('cart', JSON.stringify(existingCart));
 
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
     cy.get('.notify-count').contains('4').should('exist');
   });
 
   it('flower details opens and closes', () => {
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
     cy.get('.flower-details').should('not.exist');
 
     cy.get('.flower-card > img').eq(1).click();
+    cy.wait('@gqlFlowerDetails');
     cy.get('.flower-details').should('exist');
 
     cy.get('.flower-details .footer button').contains('Return').click();
@@ -79,6 +89,7 @@ describe('StoreFront E2E Tests', () => {
 
   it('navigates to the checkout page with the expected checked out items', () => {
     cy.visit('/');
+    cy.wait('@gqlAllFlowers');
 
     // Add Azalea (1) to the cart
     cy.get('.flower-card h6').eq(0).should('contain.text', 'Azalea');
@@ -104,6 +115,7 @@ describe('StoreFront E2E Tests', () => {
 
     // Navigate to checkout
     cy.get('.header-nav .cart-icon').click();
+    cy.wait('@gqlFlowersForCheckout');
 
     cy.url().should('include', '/checkout');
     cy.get('.checkout-item').should('have.length', 3);
