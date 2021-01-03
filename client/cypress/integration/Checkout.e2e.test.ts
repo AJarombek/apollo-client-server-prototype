@@ -23,6 +23,13 @@ describe('Checkout E2E Tests', () => {
     cy.get('.place-order-disabled').should('exist');
   });
 
+  it('continue shopping returns to the storefront', () => {
+    cy.url().should('include', '/checkout');
+    cy.get('button').contains('Continue Shopping').click();
+    cy.url().should('not.include', '/checkout');
+    cy.url().should('include', '/');
+  });
+
   it('populates the cart if there is data in localstorage', () => {
     cy.setLocalStorageCart();
 

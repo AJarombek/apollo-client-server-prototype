@@ -7,4 +7,5 @@ E2E (End to end) test source code.  Each file contains tests for a specific page
 | Filename                  | Description                                                                               |
 |---------------------------|-------------------------------------------------------------------------------------------|
 | `Checkout.e2e.test.js`    | E2E tests for the checkout page (`/checkout`).                                            |
+| `Header.e2e.test.js`      | E2E tests for the website header.                                                         |
 | `StoreFront.e2e.test.js`  | E2E tests for the main storefront page (`/`).                                             |

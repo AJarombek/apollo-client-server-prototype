@@ -7,7 +7,7 @@
 import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
-import {Flower, FlowersData, CartItem, CartAction} from '../../types';
+import { Flower, FlowersData, CartItem, CartAction } from '../../types';
 import FlowerCard from '../FlowerCard/FlowerCard';
 import FlowerDetails from '../FlowerDetails/FlowerDetails';
 import Header from '../Header/Header';

@@ -34,7 +34,8 @@ interface Props {
 
 const FlowerDetails: React.FunctionComponent<Props> = ({ flowerId, onClose, onAddToCart }) => {
   const { loading, data: { flower } = {} } = useQuery<FlowerData>(GET_FLOWER_DETAILS, {
-    variables: { id: flowerId }
+    variables: { id: flowerId },
+    fetchPolicy: 'network-only'
   });
 
   const [flowerCount, setFlowerCount] = useState(0);

@@ -45,6 +45,7 @@ const Checkout: React.FunctionComponent = () => {
   const [purchaseFlowers] = useMutation(PURCHASE_FLOWERS, {
     onCompleted() {
       dispatchCart({ type: 'empty' });
+      localStorage.setItem('reloadFlowers', JSON.stringify({ reload: true }));
       history.push('/');
     }
   });

@@ -27,10 +27,11 @@ const Header: React.FunctionComponent<Props> = ({ cartSize, bodyRef }) => {
   const [stickyHeader, setStickyHeader] = useState<boolean>(false);
 
   useEffect(() => {
-    window.addEventListener('scroll', () => handleScroll(bodyRef, setStickyHeader));
+    const scrollEventListener = (): void => handleScroll(bodyRef, setStickyHeader);
+    window.addEventListener('scroll', scrollEventListener);
 
     return (): void => {
-      window.removeEventListener('scroll', () => handleScroll(bodyRef, setStickyHeader));
+      window.removeEventListener('scroll', scrollEventListener);
     };
   }, [bodyRef]);
 
