@@ -1,0 +1,87 @@
+{
+  "data": {
+    "flowers": [
+      {
+        "id": "1",
+        "name": "Azalea",
+        "image": "azalea.jpg",
+        "price": 19.99,
+        "salePrice": 14.99,
+        "onSale": false,
+        "__typename": "Flower"
+      },
+      {
+        "id": "2",
+        "name": "Baby Primrose",
+        "image": "baby-primrose.jpg",
+        "price": 7.99,
+        "salePrice": 5.99,
+        "onSale": true,
+        "__typename": "Flower"
+      },
+      {
+        "id": "3",
+        "name": "Geranium",
+        "image": "geranium.jpg",
+        "price": 5.99,
+        "salePrice": 4.99,
+        "onSale": false,
+        "__typename": "Flower"
+      },
+      {
+        "id": "4",
+        "name": "Heart Flower",
+        "image": "heart-flower.jpg",
+        "price": 12.31,
+        "salePrice": 2.26,
+        "onSale": false,
+        "__typename": "Flower"
+      },
+      {
+        "id": "5",
+        "name": "Lilac",
+        "image": "lilac.jpg",
+        "price": 29.99,
+        "salePrice": 24.99,
+        "onSale": false,
+        "__typename": "Flower"
+      },
+      {
+        "id": "6",
+        "name": "Periwinkle",
+        "image": "periwinkle.jpg",
+        "price": 5.99,
+        "salePrice": 4.49,
+        "onSale": true,
+        "__typename": "Flower"
+      },
+      {
+        "id": "7",
+        "name": "Pulmonaria",
+        "image": "pulmonaria.jpg",
+        "price": 9.99,
+        "salePrice": 7.49,
+        "onSale": true,
+        "__typename": "Flower"
+      },
+      {
+        "id": "8",
+        "name": "Sage",
+        "image": "sage.jpg",
+        "price": 8.99,
+        "salePrice": 5.99,
+        "onSale": false,
+        "__typename": "Flower"
+      },
+      {
+        "id": "9",
+        "name": "Narrowleaf Zinnia",
+        "image": "zinnia.jpg",
+        "price": 12.49,
+        "salePrice": 9.49,
+        "onSale": true,
+        "__typename": "Flower"
+      }
+    ]
+  }
+}

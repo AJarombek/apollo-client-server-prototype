@@ -1,0 +1,15 @@
+{
+  "data": {
+    "flower": {
+      "id": "9",
+      "name": "Narrowleaf Zinnia",
+      "type": "perennial",
+      "price": 12.49,
+      "salePrice": 9.49,
+      "onSale": true,
+      "count": 50,
+      "description": "Orange flowering plant.",
+      "__typename": "Flower"
+    }
+  }
+}

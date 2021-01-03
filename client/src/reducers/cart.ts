@@ -35,18 +35,15 @@ const cartAddReducer = (state: CartItem[], action: CartAddAction): CartItem[] =>
 const cartSetReducer = (state: CartItem[], action: CartSetAction): CartItem[] => {
   const newState = [...state];
 
-  const item = state.filter((item) => item.id === action.id)[0];
+  const item = newState.filter((item) => item.id === action.id)[0];
   item.count = action.count;
 
+  localStorage.setItem('cart', JSON.stringify(newState.filter((item) => item.count >= 0)));
   return newState;
 };
 
 const cartRestoreReducer = (state: CartItem[], action: CartRestoreAction): CartItem[] => {
   return action.items;
-};
-
-const cartDeleteReducer = (state: CartItem[], action: CartDeleteAction): CartItem[] => {
-  return state.filter((item) => item.id !== action.id);
 };
 
 export const cartEmptyReducer = (): CartItem[] => {
@@ -62,8 +59,6 @@ export const cartReducer = (state: CartItem[], action: CartAction): CartItem[] =
       return cartRestoreReducer(state, action);
     case 'set':
       return cartSetReducer(state, action);
-    case 'delete':
-      return cartDeleteReducer(state, action);
     case 'empty':
       return cartEmptyReducer();
   }

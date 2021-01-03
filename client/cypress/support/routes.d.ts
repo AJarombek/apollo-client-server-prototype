@@ -14,5 +14,11 @@ declare namespace Cypress {
          * @example cy.interceptGraphQL()
          */
         interceptGraphQL(): void;
+
+        /**
+         * Custom command to intercept HTTP requests and replace the server responses with static JSON.
+         * @example cy.interceptAndMockGraphQL()
+         */
+        interceptAndMockGraphQL(): void;
     }
 }
