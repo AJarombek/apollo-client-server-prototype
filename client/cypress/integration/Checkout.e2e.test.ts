@@ -88,4 +88,69 @@ describe('Checkout E2E Tests', () => {
     cy.checkCartItem('Pulmonaria', 0, '$7.49', '$0.00', 2);
     cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$11.98');
   });
+
+  it('setting the quantity to -1 reverts to 0', () => {
+    cy.setLocalStorageCart();
+
+    cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
+    cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 2);
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$13.48');
+
+    cy.get('.checkout-item:nth-child(2) > .details > .flower-quantity > input')
+      .invoke('val', '')
+      .clear()
+      .type('-1')
+      .trigger('change');
+
+    cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
+    cy.checkCartItem('Pulmonaria', 0, '$7.49', '$0.00', 2);
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$5.99');
+  });
+
+  it('setting the quantity to a number greater than whats in stock reverts it to the full stock number', () => {
+    cy.setLocalStorageCart();
+
+    cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
+    cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 2);
+
+    cy.get('.checkout-item:nth-child(2) > .details > .flower-quantity > input')
+      .invoke('val', '')
+      .clear()
+      .type('100')
+      .trigger('change');
+
+    cy.get('.checkout-item .flower-quantity input')
+      .eq(1)
+      .invoke('val')
+      .then(parseFloat)
+      .should('be.lessThan', 100)
+      .should('be.greaterThan', 1);
+  });
+
+  it('is able to delete items from the cart', () => {
+    cy.setLocalStorageCart();
+
+    cy.get('.checkout-item').should('have.length', 2);
+    cy.get('.notify-count').should('contain.text', 2);
+    cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
+    cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 2);
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$13.48');
+
+    cy.get('.checkout-item:nth-child(1) .remove-icon').click();
+
+    cy.get('.checkout-item').should('have.length', 1);
+    cy.get('.notify-count').should('contain.text', 1);
+    cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 1);
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$7.49');
+    cy.get('.place-order-enabled').should('exist');
+    cy.get('.place-order-disabled').should('not.exist');
+
+    cy.get('.checkout-item:nth-child(1) .remove-icon').click();
+
+    cy.get('.checkout-item').should('not.exist');
+    cy.get('.notify-count').should('not.exist');
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$0.00');
+    cy.get('.place-order-enabled').should('not.exist');
+    cy.get('.place-order-disabled').should('exist');
+  });
 });

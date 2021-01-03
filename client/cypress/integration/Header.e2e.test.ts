@@ -13,7 +13,7 @@ describe('Header E2E Tests', () => {
     cy.get('.header-dry').should('exist');
     cy.get('.header-sticky').should('not.exist');
 
-    cy.scrollTo(0, 200);
+    cy.scrollTo(0, 500);
 
     cy.get('.header-nav').should('exist');
     cy.get('.header-dry').should('not.exist');
