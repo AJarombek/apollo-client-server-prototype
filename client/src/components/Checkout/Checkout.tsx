@@ -95,8 +95,8 @@ const Checkout: React.FunctionComponent = () => {
                   key={flower.id}
                   flower={flower}
                   quantity={(cart.filter((item) => item.id === flower.id)[0] ?? {}).count}
-                  cartSet={(id, count) => dispatchCart({ type: 'set', id, count })}
-                  cartDelete={(id) => dispatchCart({ type: 'set', id, count: -1 })}
+                  cartSet={(id, count): void => dispatchCart({ type: 'set', id, count })}
+                  cartDelete={(id): void => dispatchCart({ type: 'set', id, count: -1 })}
                 />
               ))}
             <div className="grand-total">
@@ -120,7 +120,7 @@ const Checkout: React.FunctionComponent = () => {
           >
             Place Order
           </AJButton>
-          <AJButton type="text" onClick={(): void => {}} disabled={false}>
+          <AJButton type="text" onClick={(): void => history.push('/')} disabled={false}>
             Continue Shopping
           </AJButton>
         </div>

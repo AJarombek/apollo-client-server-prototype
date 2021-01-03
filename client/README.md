@@ -3,6 +3,15 @@
 Client side React.js/Less code.  This application is the Apollo Client, which calls the 
 Apollo Server for data.
 
+### Commands
+
+**Run the Cypress Tests**
+
+```bash
+nvm use v13.9.0
+yarn cy:open
+```
+
 ### Files
 
 | Filename                 | Description                                                                |

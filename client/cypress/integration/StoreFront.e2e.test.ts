@@ -108,23 +108,23 @@ describe('StoreFront E2E Tests', () => {
     cy.url().should('include', '/checkout');
     cy.get('.checkout-item').should('have.length', 3);
 
-    // Baby Primrose exists amongst the checkout items.
-    cy.get('.checkout-item .flower-name').eq(0).should('contain.text', 'Baby Primrose');
+    // Azalea exists amongst the checkout items.
+    cy.get('.checkout-item .flower-name').eq(0).should('contain.text', 'Azalea');
     cy.get('.checkout-item .flower-quantity input').eq(0).invoke('val').should('contain', '1');
-    cy.get('.checkout-item .flower-prices').eq(0).should('contain.text', '$5.99');
-    cy.get('.checkout-item .total-cost').eq(0).should('contain.text', '$5.99');
+    cy.get('.checkout-item .flower-prices').eq(0).should('contain.text', '$19.99');
+    cy.get('.checkout-item .total-cost').eq(0).should('contain.text', '$19.99');
+
+    // Baby Primrose exists amongst the checkout items.
+    cy.get('.checkout-item .flower-name').eq(1).should('contain.text', 'Baby Primrose');
+    cy.get('.checkout-item .flower-quantity input').eq(1).invoke('val').should('contain', '1');
+    cy.get('.checkout-item .flower-prices').eq(1).should('contain.text', '$5.99');
+    cy.get('.checkout-item .total-cost').eq(1).should('contain.text', '$5.99');
 
     // Heart Flower exists amongst the checkout items.
-    cy.get('.checkout-item .flower-name').eq(1).should('contain.text', 'Heart Flower');
-    cy.get('.checkout-item .flower-quantity input').eq(1).invoke('val').should('contain', '2');
-    cy.get('.checkout-item .flower-prices').eq(1).should('contain.text', '$12.31');
-    cy.get('.checkout-item .total-cost').eq(1).should('contain.text', '$24.62');
-
-    // Azalea exists amongst the checkout items.
-    cy.get('.checkout-item .flower-name').eq(2).should('contain.text', 'Azalea');
-    cy.get('.checkout-item .flower-quantity input').eq(2).invoke('val').should('contain', '1');
-    cy.get('.checkout-item .flower-prices').eq(2).should('contain.text', '$19.99');
-    cy.get('.checkout-item .total-cost').eq(2).should('contain.text', '$19.99');
+    cy.get('.checkout-item .flower-name').eq(2).should('contain.text', 'Heart Flower');
+    cy.get('.checkout-item .flower-quantity input').eq(2).invoke('val').should('contain', '2');
+    cy.get('.checkout-item .flower-prices').eq(2).should('contain.text', '$12.31');
+    cy.get('.checkout-item .total-cost').eq(2).should('contain.text', '$24.62');
 
     // The total cost is correctly calculated.
     cy.get('.checkout .grand-total').should('contain.text', '$50.60');
