@@ -41,4 +41,51 @@ describe('Checkout E2E Tests', () => {
     cy.get('.place-order-enabled').should('exist');
     cy.get('.place-order-disabled').should('not.exist');
   });
+
+  it('is able to purchase items that were populated from localstorage', () => {
+    cy.setLocalStorageCart();
+
+    cy.get('.checkout-item').should('have.length', 2);
+    cy.get('.notify-count').should('contain.text', 2);
+
+    cy.get('.place-order-enabled').should('exist').click();
+
+    cy.url().should('not.include', '/checkout');
+    cy.url().should('include', '/');
+    cy.get('.notify-count').should('not.exist');
+  });
+
+  it('is able to change the quantities of items in the cart', () => {
+    cy.setLocalStorageCart();
+
+    cy.get('.checkout-item').should('have.length', 2);
+    cy.get('.notify-count').should('contain.text', 2);
+    cy.checkCartItem('Baby Primrose', 1, '$5.99', '$5.99', 1);
+    cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 2);
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$13.48');
+
+    cy.get('.checkout-item:nth-child(1) > .details > .flower-quantity > input')
+      .invoke('val', '')
+      .clear()
+      .type('2')
+      .trigger('change');
+
+    cy.get('.checkout-item').should('have.length', 2);
+    cy.get('.notify-count').should('contain.text', 3);
+    cy.checkCartItem('Baby Primrose', 2, '$5.99', '$11.98', 1);
+    cy.checkCartItem('Pulmonaria', 1, '$7.49', '$7.49', 2);
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$19.47');
+
+    cy.get('.checkout-item:nth-child(2) > .details > .flower-quantity > input')
+      .invoke('val', '')
+      .clear()
+      .type('0')
+      .trigger('change');
+
+    cy.get('.checkout-item').should('have.length', 2);
+    cy.get('.notify-count').should('contain.text', 2);
+    cy.checkCartItem('Baby Primrose', 2, '$5.99', '$11.98', 1);
+    cy.checkCartItem('Pulmonaria', 0, '$7.49', '$0.00', 2);
+    cy.get('.grand-total > p:nth-child(2)').should('contain.text', '$11.98');
+  });
 });

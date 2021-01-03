@@ -83,6 +83,19 @@ const Checkout: React.FunctionComponent = () => {
     }
   }, [cart, data]);
 
+  const sortFlowers = (flowerA: Flower, flowerB: Flower): number => {
+    const a = flowerA.name.toLowerCase();
+    const b = flowerB.name.toLowerCase();
+
+    if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <div className="checkout" ref={ref}>
       <Header cartSize={cartSize} bodyRef={ref} />
@@ -91,15 +104,17 @@ const Checkout: React.FunctionComponent = () => {
           <div>
             {!loading &&
               !!data &&
-              data.flowersIn.map((flower: Flower) => (
-                <CheckoutItem
-                  key={flower.id}
-                  flower={flower}
-                  quantity={(cart.filter((item) => item.id === flower.id)[0] ?? {}).count}
-                  cartSet={(id, count): void => dispatchCart({ type: 'set', id, count })}
-                  cartDelete={(id): void => dispatchCart({ type: 'set', id, count: -1 })}
-                />
-              ))}
+              data.flowersIn
+                .sort(sortFlowers)
+                .map((flower: Flower) => (
+                  <CheckoutItem
+                    key={flower.id}
+                    flower={flower}
+                    quantity={(cart.filter((item) => item.id === flower.id)[0] ?? {}).count}
+                    cartSet={(id, count): void => dispatchCart({ type: 'set', id, count })}
+                    cartDelete={(id): void => dispatchCart({ type: 'set', id, count: -1 })}
+                  />
+                ))}
             <div className="grand-total">
               <p>Total:</p>
               <p>${totalCost.toFixed(2)}</p>
