@@ -1,4 +1,6 @@
 import knexfile from '../../knexfile';
 import knex from 'knex';
 
-export default knex(knexfile['local']);
+const environment = process.env.KNEX_ENV ?? 'local'
+
+export default knex(knexfile[environment]);

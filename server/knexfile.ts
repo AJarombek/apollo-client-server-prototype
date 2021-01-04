@@ -13,5 +13,14 @@ export default {
       password: 'apollolocal',
       database: 'postgres'
     }
+  },
+  production: {
+    client: 'pg',
+    connection: {
+      host: 'apollo-client-server-prototype-db',
+      user: 'postgres',
+      password: 'apollolocal',
+      database: 'postgres'
+    }
   }
 };

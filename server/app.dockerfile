@@ -11,17 +11,6 @@ LABEL maintainer="andrew@jarombek.com" \
 COPY . src
 
 WORKDIR src
-RUN yarn && yarn build
+RUN npm install pm2 -g && yarn && yarn build
 
-FROM nginx:1.19 AS server
-COPY nginx.conf /etc/nginx/nginx.conf
-
-RUN curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh \
-    && bash nodesource_setup.sh \
-    && apt-get install -y nodejs \
-    && npm install -g pm2
-
-WORKDIR /dist
-COPY --from=base /src/dist .
-
-RUN pm2 start /dist/app.js
+ENTRYPOINT ["pm2-runtime", "/src/dist/app.js"]

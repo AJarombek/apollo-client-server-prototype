@@ -9,6 +9,9 @@ services:
       context: .
       dockerfile: app.dockerfile
       network: host
+    environment:
+      - port=80
+      - KNEX_ENV=production
     ports:
       - 8081:80
     networks:

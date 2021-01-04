@@ -1,9 +1,9 @@
 /**
  * E2E tests written with Cypress for the website header.
- * You always seem to know how I'm feeling.  I hope you know that I'm always here for you no matter who you love or
- * which path you want to take.
+ * You always seem to know how I'm feeling.   I hope you know that I'm always here for you no matter who you love or
+ *  which path you want to take.
  * @author Andrew Jarombek
- * @since 1/3/2021
+ * @since 1/4/2021
  */
 
 describe('Header E2E Tests', () => {
