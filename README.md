@@ -20,18 +20,28 @@ cd client && yarn && cd ..
 **Client**
 
 ```bash
+# Start the web application with yarn
 cd client
 nvm use v13.9.0
 yarn start
+
+# Start the web application using Docker
+cd client
+docker-compose up --build
 ```
 
 **Server**
 
 ```bash
+# Start the server using yarn
 cd server
 nvm use v13.9.0
 yarn build
 node dist/app.js
+
+# Start the server using Docker
+cd server
+docker-compose up --build
 ```
 
 **Database**

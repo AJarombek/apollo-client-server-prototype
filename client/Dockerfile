@@ -11,15 +11,12 @@ LABEL maintainer="andrew@jarombek.com" \
 COPY . src
 
 WORKDIR src
-RUN npm install -g yarn && yarn && yarn build
+RUN yarn && yarn build
 
 FROM nginx:1.19 AS server
-COPY nginx.conf /etc/nginx/nginx.conf
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d
 
 COPY --from=base /src/dist /usr/share/nginx/html
 
-EXPOSE 80
-
-STOPSIGNAL SIGTERM
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]

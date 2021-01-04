@@ -10,8 +10,9 @@ GraphQL API.
 | `src`                    | Node.js/Express/Apollo source code for the server application.             |
 | `.babelrc`               | Configuration for the Babel transpiler.                                    |
 | `docker-compose.yml`     | Docker compose configuration to easily run the Dockerfile locally.         |
-| `Dockerfile`             | Dockerfile for running the server application locally or in production.    |
+| `app.dockerfile`         | Dockerfile for running the server application.                             |
 | `nginx.conf`             | Nginx server configuration for the server application.                     |
+| `nginx.dockerfile`       | Dockerfile for an Nginx reverse proxy to the server application.           |
 | `package.json`           | Entry point for the npm application.  Contains dependency definitions.     |
 | `queries.graphql`        | Assortment of GraphQL queries that can be used with the server.            |
 | `tsconfig.json`          | Typescript language configuration.                                         |

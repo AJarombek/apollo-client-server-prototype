@@ -4,15 +4,26 @@
 
 version: '3.7'
 services:
-  apollo-server-prototype:
+  apollo-server-prototype-app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: app.dockerfile
       network: host
     ports:
       - 8081:80
     networks:
       - local-apollo-client-server-net
+  apollo-server-prototype-nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+      network: host
+    ports:
+      - 8080:80
+    networks:
+      - local-apollo-client-server-net
+    depends_on:
+      - apollo-server-prototype-app
 
 networks:
   local-apollo-client-server-net:
