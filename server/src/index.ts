@@ -14,7 +14,7 @@ import schema from './schema';
 import resolvers from './resolvers';
 
 const app: Application = express();
-const port = process.env.port ?? 8084;
+const port = process.env.NODE_PORT ?? 8084;
 
 app.use(helmet());
 app.use(cors());

@@ -149,7 +149,43 @@ resource "kubernetes_pod" "database" {
   }
 }
 
-resource "kubernetes_pod" "server" {
+resource "kubernetes_pod" "server-app" {
+  metadata {
+    name = "apollo-prototype-server-app"
+    namespace = "sandbox"
+
+    labels = {
+      version = "v1.0.0"
+      environment = "production"
+      application = "apollo-client-server-prototype"
+      task = "app"
+    }
+  }
+
+  spec {
+    container {
+      name = "apollo-prototype-server-app"
+      image = "ajarombek/apollo-prototype-server-app:latest"
+
+      readiness_probe {
+        period_seconds = 5
+        initial_delay_seconds = 20
+
+        http_get {
+          path = "/ping"
+          port = 80
+        }
+      }
+
+      port {
+        container_port = 80
+        protocol = "TCP"
+      }
+    }
+  }
+}
+
+resource "kubernetes_pod" "server-nginx" {
   metadata {
     name = "apollo-prototype-server"
     namespace = "sandbox"
@@ -158,13 +194,14 @@ resource "kubernetes_pod" "server" {
       version = "v1.0.0"
       environment = "production"
       application = "apollo-client-server-prototype"
+      task = "nginx"
     }
   }
 
   spec {
     container {
-      name = "apollo-prototype-server"
-      image = "ajarombek/apollo-prototype-server:latest"
+      name = "apollo-prototype-server-nginx"
+      image = "ajarombek/apollo-prototype-server-nginx:latest"
 
       readiness_probe {
         period_seconds = 5

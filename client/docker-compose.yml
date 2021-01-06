@@ -5,6 +5,7 @@
 version: '3.7'
 services:
   apollo-client-prototype:
+    domainname: apollo-client-prototype
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,8 +13,8 @@ services:
     ports:
       - 8080:80
     networks:
-      - local-apollo-client-server-net
+      - database_local-apollo-client-server-net
 
 networks:
-  local-apollo-client-server-net:
-    driver: bridge
+  database_local-apollo-client-server-net:
+    external: true

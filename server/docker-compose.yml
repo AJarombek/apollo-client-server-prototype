@@ -5,18 +5,20 @@
 version: '3.7'
 services:
   apollo-server-prototype-app:
+    domainname: apollo-server-prototype-app
     build:
       context: .
       dockerfile: app.dockerfile
       network: host
     environment:
-      - port=80
+      - NODE_PORT=80
       - KNEX_ENV=production
     ports:
       - 8081:80
     networks:
-      - local-apollo-client-server-net
+      - database_local-apollo-client-server-net
   apollo-server-prototype-nginx:
+    domainname: apollo-server-prototype
     build:
       context: .
       dockerfile: nginx.dockerfile
@@ -24,10 +26,10 @@ services:
     ports:
       - 8080:80
     networks:
-      - local-apollo-client-server-net
+      - database_local-apollo-client-server-net
     depends_on:
       - apollo-server-prototype-app
 
 networks:
-  local-apollo-client-server-net:
-    driver: bridge
+  database_local-apollo-client-server-net:
+    external: true

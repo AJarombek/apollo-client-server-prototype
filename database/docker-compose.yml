@@ -5,6 +5,7 @@
 version: '3.7'
 services:
   apollo-client-server-prototype-db:
+    domainname: apollo-client-server-prototype-db
     build:
       context: .
       dockerfile: Dockerfile

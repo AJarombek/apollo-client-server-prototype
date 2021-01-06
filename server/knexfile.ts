@@ -15,7 +15,8 @@ const knexConfig: KnexConfig = {
       host: 'localhost',
       user: 'postgres',
       password: 'apollolocal',
-      database: 'postgres'
+      database: 'postgres',
+      port: 5432
     }
   },
   production: {
@@ -24,7 +25,8 @@ const knexConfig: KnexConfig = {
       host: 'apollo-client-server-prototype-db',
       user: 'postgres',
       password: 'apollolocal',
-      database: 'postgres'
+      database: 'postgres',
+      port: 5432
     }
   }
 };
