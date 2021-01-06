@@ -4,6 +4,6 @@
  * @since 5/22/2020
  */
 
-import Flower from "./flower";
+import Flower from './flower';
 
 export default [Flower];

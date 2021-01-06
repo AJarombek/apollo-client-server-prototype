@@ -23,7 +23,8 @@ module.exports = {
             "singleQuote": true,
             "printWidth": 120,
             "trailingComma": "none",
-        }]
+        }],
+        "@typescript-eslint/camelcase": ["off"]
     },
     ignorePatterns: ['webpack.config.js', '.eslintrc.js']
 };

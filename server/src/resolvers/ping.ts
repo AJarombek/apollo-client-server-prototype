@@ -6,12 +6,12 @@
  */
 
 import { Resolvers } from '../types';
-import moment from "moment";
+import moment from 'moment';
 
 export const resolvers: Resolvers = {
-    Query: {
-        ping: (parent: any) => {
-            return moment().unix();
-        }
+  Query: {
+    ping: (parent: any) => {
+      return moment().unix();
     }
+  }
 };

@@ -1,35 +1,37 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-    extend type Query {
-        flower(id: ID!): Flower
-        flowers: [Flower]
-        flowersIn(in: [ID]!): [Flower]
-    }
-    
-    extend type Mutation {
-        purchaseFlowers(purchases: [FlowerPurchase]): Boolean
-    }
+  extend type Query {
+    flower(id: ID!): Flower
+    flowers: [Flower]
+    flowersIn(in: [ID]!): [Flower]
+  }
 
-    type Flower {
-        id: ID!,
-        name: String!,
-        image: String!,
-        type: FlowerLifespan!,
-        inStock: Boolean,
-        onSale: Boolean,
-        count: Int
-        price: Float,
-        salePrice: Float,
-        description: String
-    }
+  extend type Mutation {
+    purchaseFlowers(purchases: [FlowerPurchase]): Boolean
+  }
 
-    input FlowerPurchase {
-        id: ID!,
-        count: Int!
-    }
+  type Flower {
+    id: ID!
+    name: String!
+    image: String!
+    type: FlowerLifespan!
+    inStock: Boolean
+    onSale: Boolean
+    count: Int
+    price: Float
+    salePrice: Float
+    description: String
+  }
 
-    enum FlowerLifespan {
-        annual, perennial, shrub
-    }
+  input FlowerPurchase {
+    id: ID!
+    count: Int!
+  }
+
+  enum FlowerLifespan {
+    annual
+    perennial
+    shrub
+  }
 `;

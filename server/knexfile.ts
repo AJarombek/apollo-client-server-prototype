@@ -4,7 +4,11 @@
  * @since 5/22/2020
  */
 
-export default {
+interface KnexConfig {
+  [key: string]: object;
+}
+
+const knexConfig: KnexConfig = {
   local: {
     client: 'pg',
     connection: {
@@ -24,3 +28,5 @@ export default {
     }
   }
 };
+
+export default knexConfig;
