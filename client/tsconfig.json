@@ -11,5 +11,5 @@
     "jsx": "react",
     "types": ["cypress"]
   },
-  "exclude": ["node_modules", "cypress"]
+  "exclude": ["node_modules", "cypress", "test"]
 }

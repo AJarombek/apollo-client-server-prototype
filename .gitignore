@@ -4,3 +4,5 @@ client/.nyc_output
 client/coverage
 server/dist
 **/.terraform
+client/cypress/screenshots
+client/cypress/videos

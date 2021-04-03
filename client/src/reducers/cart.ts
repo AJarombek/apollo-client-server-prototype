@@ -4,7 +4,7 @@
  * @since 8/20/2020
  */
 
-import { CartAction, CartAddAction, CartDeleteAction, CartItem, CartRestoreAction, CartSetAction } from '../types';
+import { CartAction, CartAddAction, CartItem, CartRestoreAction, CartSetAction } from '../types';
 
 const cartAddReducer = (state: CartItem[], action: CartAddAction): CartItem[] => {
   const existingItems = state.filter((item) => item.id === action.id);
