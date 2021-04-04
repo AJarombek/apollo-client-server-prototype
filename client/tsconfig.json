@@ -8,8 +8,7 @@
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "target": "ES2020",
-    "jsx": "react",
-    "types": ["cypress"]
+    "jsx": "react"
   },
-  "exclude": ["node_modules", "cypress", "test"]
+  "exclude": ["node_modules", "cypress"]
 }
