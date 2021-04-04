@@ -10,7 +10,7 @@ import moment from 'moment';
 
 export const resolvers: Resolvers = {
   Query: {
-    ping: (parent: any) => {
+    ping: (): number => {
       return moment().unix();
     }
   }

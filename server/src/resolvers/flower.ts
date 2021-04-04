@@ -32,7 +32,7 @@ export const resolvers: Resolvers = {
         return null;
       }
     },
-    flowers: async (parent: any): Promise<GraphQLFlower[]> => {
+    flowers: async (): Promise<GraphQLFlower[]> => {
       const result = (await Flower.query().orderBy('id')) as Flower[];
 
       return result.map(
