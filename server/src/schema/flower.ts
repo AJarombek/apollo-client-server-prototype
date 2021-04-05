@@ -1,3 +1,9 @@
+/**
+ * GraphQL schema definition for flowers.
+ * @author Andrew Jarombek
+ * @since 5/22/2020
+ */
+
 import { gql } from 'apollo-server-express';
 
 export default gql`

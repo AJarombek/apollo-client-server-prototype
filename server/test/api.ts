@@ -36,6 +36,36 @@ export const FLOWER_FEW_FIELDS = `
     }
 `;
 
+/* And I wish you were here */
+
+export const ALL_FLOWERS_ALL_FIELDS = `
+    query allFlowers {
+        flowers {
+            id
+            name
+            type
+            image
+            price
+            salePrice
+            onSale
+            count
+            inStock
+            description
+            __typename
+        }
+    }
+`;
+
+export const ALL_FLOWERS_FEW_FIELDS = `
+    query allFlowers {
+        flowers {
+            id
+            name
+            price
+        }
+    }
+`;
+
 export const PING = `
     {
         ping

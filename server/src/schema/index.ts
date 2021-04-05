@@ -1,3 +1,9 @@
+/**
+ * Base GraphQL schema for the api.
+ * @author Andrew Jarombek
+ * @since 5/22/2020
+ */
+
 import { gql } from 'apollo-server-express';
 
 import pingSchema from './ping';
