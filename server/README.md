@@ -8,6 +8,7 @@ GraphQL API.
 | Filename                 | Description                                                                |
 |--------------------------|----------------------------------------------------------------------------|
 | `src`                    | Node.js/Express/Apollo source code for the server application.             |
+| `test`                   | E2E tests for the GraphQL/Apollo server.                                   |
 | `.babelrc`               | Configuration for the Babel transpiler.                                    |
 | `.eslintrc.js`           | ESLint configuration for the server TypeScript code.                       |
 | `app.dockerfile`         | Dockerfile for running the server application.                             |

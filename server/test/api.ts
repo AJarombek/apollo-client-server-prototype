@@ -6,8 +6,50 @@
 
 import axios, { AxiosResponse } from 'axios';
 
-export const flower = (variables): Promise<AxiosResponse> =>
-  axios.post('', {
-    query: '',
+export const FLOWER_ALL_FIELDS = `
+    query flowerDetails($id: ID!) {
+        flower(id: $id) {
+            id
+            name
+            type
+            image
+            price
+            salePrice
+            onSale
+            count
+            inStock
+            description
+            __typename
+        }
+    }
+`;
+
+export const FLOWER_FEW_FIELDS = `
+    query flowerDetails($id: ID!) {
+        flower(id: $id) {
+            id
+            name
+            price
+            inStock
+            description
+        }
+    }
+`;
+
+export const PING = `
+    {
+        ping
+    }
+`;
+
+export const flower = (query: string, variables: object): Promise<AxiosResponse> =>
+  axios.post('http://localhost:8084/graphql', {
+    query,
+    operationName: 'flowerDetails',
     variables
+  });
+
+export const ping = (): Promise<AxiosResponse> =>
+  axios.post('http://localhost:8084/graphql', {
+    query: PING
   });
