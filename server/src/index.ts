@@ -9,9 +9,20 @@ import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express';
 import helmet from 'helmet';
 import cors from 'cors';
 import moment from 'moment';
+import winston from 'winston';
 
 import schema from './schema';
 import resolvers from './resolvers';
+import { ApolloServerPlugin, BaseContext, GraphQLRequestContext } from 'apollo-server-plugin-base';
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
 
 const app: Application = express();
 const port = process.env.NODE_PORT ?? 8084;
@@ -19,19 +30,31 @@ const port = process.env.NODE_PORT ?? 8084;
 app.use(helmet());
 app.use(cors());
 
-export interface Context {}
+const loggingPlugin: ApolloServerPlugin = {
+  requestDidStart(requestContext: GraphQLRequestContext<BaseContext>) {
+    logger.info({
+      time: moment().format(),
+      query: requestContext.request.query,
+      operationName: requestContext.request.operationName,
+      variables: requestContext.request.variables
+    });
 
-const config: ApolloServerExpressConfig = {
-  typeDefs: schema,
-  resolvers
+    return {};
+  }
 };
 
-const server = new ApolloServer(config);
+export type Context = {};
+
+const config = {
+  typeDefs: schema,
+  resolvers,
+  plugins: [loggingPlugin]
+};
+
+const server = new ApolloServer(config as ApolloServerExpressConfig);
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-app.use('/ping', (req, res) => res.send({ time: moment().unix() }));
-
 app.listen(port, () => {
-  console.info(`Server started at http://localhost:${port}/graphql`);
+  logger.info(`Server started at http://localhost:${port}/graphql`);
 });

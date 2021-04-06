@@ -5,13 +5,15 @@
  * @since 5/22/2020
  */
 
-import { Resolvers } from '../types';
+import { Ping, Resolvers } from '../types';
 import moment from 'moment';
 
 export const resolvers: Resolvers = {
   Query: {
-    ping: (): number => {
-      return moment().unix();
+    ping: (): Ping => {
+      return {
+        time: moment().unix()
+      };
     }
   }
 };

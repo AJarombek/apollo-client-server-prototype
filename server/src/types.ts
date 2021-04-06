@@ -18,6 +18,10 @@ export type Scalars = {
   Float: number;
 };
 
+export type Ping = {
+  time: Scalars['Int'];
+};
+
 export type Flower = {
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -65,10 +69,11 @@ export type ResolversTypes = {
   Int: number;
   Boolean: boolean;
   Flower: any;
+  Ping: any;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType = ResolversTypes['Query']> = {
-  ping?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  ping?: Resolver<Maybe<ResolversTypes['Ping']>, ParentType, ContextType>;
   flower?: Resolver<Maybe<ResolversTypes['Flower']>, ParentType, ContextType, QueryFlowerArgs>;
   flowers?: Resolver<Array<ResolversTypes['Flower']>, ParentType, ContextType>;
   flowersIn?: Resolver<Array<ResolversTypes['Flower']>, ParentType, ContextType, QueryFlowersInArgs>;

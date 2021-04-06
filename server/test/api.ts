@@ -79,6 +79,13 @@ export const flower = (query: string, variables: object): Promise<AxiosResponse>
     variables
   });
 
+export const flowers = (query: string): Promise<AxiosResponse> =>
+  axios.post('http://localhost:8084/graphql', {
+    query,
+    operationName: 'allFlowers',
+    variables: {}
+  });
+
 export const ping = (): Promise<AxiosResponse> =>
   axios.post('http://localhost:8084/graphql', {
     query: PING
