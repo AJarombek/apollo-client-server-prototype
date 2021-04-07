@@ -66,9 +66,38 @@ export const ALL_FLOWERS_FEW_FIELDS = `
     }
 `;
 
+export const FLOWERS_IN_ALL_FIELDS = `
+    query flowersIn($in: [ID]!) {
+        flowersIn(in: $in) {
+            id
+            name
+            type
+            image
+            price
+            salePrice
+            onSale
+            count
+            inStock
+            description
+            __typename
+        }
+    }
+`;
+
+export const FLOWERS_IN_FEW_FIELDS = `
+    query flowersIn($in: [ID]!) {
+        flowersIn(in: $in) {
+            id
+            name
+        }
+    }
+`;
+
 export const PING = `
-    {
-        ping
+    query {
+        ping {
+            time
+        }
     }
 `;
 
@@ -84,6 +113,13 @@ export const flowers = (query: string): Promise<AxiosResponse> =>
     query,
     operationName: 'allFlowers',
     variables: {}
+  });
+
+export const flowersIn = (query: string, variables: object): Promise<AxiosResponse> =>
+  axios.post('http://localhost:8084/graphql', {
+    query,
+    operationName: 'flowersIn',
+    variables
   });
 
 export const ping = (): Promise<AxiosResponse> =>

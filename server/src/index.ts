@@ -15,7 +15,7 @@ import schema from './schema';
 import resolvers from './resolvers';
 import { ApolloServerPlugin, BaseContext, GraphQLRequestContext } from 'apollo-server-plugin-base';
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
   transports: [

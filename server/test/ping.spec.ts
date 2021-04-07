@@ -14,7 +14,8 @@ describe('Ping GraphQL Endpoints', () => {
 
   it('returns a number when the server is pinged', async () => {
     const result = await api.ping();
-    expect(result.data.data.ping).to.eql(0);
+    expect(Object.keys(result.data.data.ping)).to.eql(['time']);
+    expect(result.data.data.ping.time).to.be.greaterThan(0);
     expect(result.status).to.eql(200);
   });
 });

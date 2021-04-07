@@ -4,6 +4,12 @@ Author: Andrew Jarombek
 Date: 7/29/2020
 """
 
+query {
+    ping {
+        time
+    }
+}
+
 query oneFlower {
     flower(id: 1) {
         name

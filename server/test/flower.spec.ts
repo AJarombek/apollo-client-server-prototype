@@ -12,7 +12,7 @@ describe('Flower GraphQL Endpoints', () => {
     const expectedResult = {
       data: {
         flower: {
-          count: 46,
+          count: 5,
           description: 'Pink flowering shrub.',
           id: '1',
           name: 'Azalea',
@@ -55,25 +55,57 @@ describe('Flower GraphQL Endpoints', () => {
 
   it('returns all the flowers in the database with all properties', async () => {
     const expectedFirstItem = {
-      data: {
-        flower: {
-          count: 46,
-          description: 'Pink flowering shrub.',
-          id: '1',
-          name: 'Azalea',
-          image: 'azalea.jpg',
-          inStock: true,
-          onSale: false,
-          price: 19.99,
-          salePrice: 14.99,
-          type: 'shrub',
-          __typename: 'Flower'
-        }
-      }
+      count: 5,
+      description: 'Pink flowering shrub.',
+      id: '1',
+      name: 'Azalea',
+      image: 'azalea.jpg',
+      inStock: true,
+      onSale: false,
+      price: 19.99,
+      salePrice: 14.99,
+      type: 'shrub',
+      __typename: 'Flower'
+    };
+
+    const expectedLastItem = {
+      count: 5,
+      description: 'Orange flowering plant.',
+      id: '9',
+      name: 'Narrowleaf Zinnia',
+      image: 'zinnia.jpg',
+      inStock: true,
+      onSale: true,
+      price: 12.99,
+      salePrice: 9.99,
+      type: 'perennial',
+      __typename: 'Flower'
     };
 
     const result = await api.flowers(api.ALL_FLOWERS_ALL_FIELDS);
-    expect(result.data.data).to.have.length(9);
+    expect(result.data.data.flowers).to.have.length(9);
+    expect(result.data.data.flowers[0]).to.eql(expectedFirstItem);
+    expect(result.data.data.flowers[8]).to.eql(expectedLastItem);
+    expect(result.status).to.eql(200);
+  });
+
+  it('returns all the flowers in the database with a few properties', async () => {
+    const expectedFirstItem = {
+      id: '1',
+      name: 'Azalea',
+      price: 19.99
+    };
+
+    const expectedLastItem = {
+      id: '9',
+      name: 'Narrowleaf Zinnia',
+      price: 12.99
+    };
+
+    const result = await api.flowers(api.ALL_FLOWERS_FEW_FIELDS);
+    expect(result.data.data.flowers).to.have.length(9);
+    expect(result.data.data.flowers[0]).to.eql(expectedFirstItem);
+    expect(result.data.data.flowers[8]).to.eql(expectedLastItem);
     expect(result.status).to.eql(200);
   });
 
@@ -81,5 +113,10 @@ describe('Flower GraphQL Endpoints', () => {
     const result = await api.flower(api.FLOWER_ALL_FIELDS, { id: '0' });
     expect(Object.keys(result.data)).to.contain('errors');
     expect(result.status).to.eql(200);
+  });
+
+  it('returns all the flowers in a list with all properties', async () => {
+    const result = await api.flowersIn(api.FLOWERS_IN_ALL_FIELDS, { in: ['1', '2'] });
+    expect(result.data.data.flowersIn).to.have.length(2);
   });
 });

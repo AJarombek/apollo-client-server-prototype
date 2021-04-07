@@ -9,8 +9,13 @@ import { resolvers as flowerResolvers } from './flower';
 import { IResolvers } from '../types';
 
 const resolvers: IResolvers = {
-  ...pingResolvers,
-  ...flowerResolvers
+  Query: {
+    ...pingResolvers.Query,
+    ...flowerResolvers.Query
+  },
+  Mutation: {
+    ...flowerResolvers.Mutation
+  }
 };
 
 export default resolvers;
