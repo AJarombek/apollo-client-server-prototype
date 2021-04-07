@@ -36,6 +36,15 @@ export const FLOWER_FEW_FIELDS = `
     }
 `;
 
+export const FLOWER_COUNT = `
+    query flowerDetails($id: ID!) {
+        flower(id: $id) {
+            name
+            count
+        }
+    }
+`;
+
 /* And I wish you were here */
 
 export const ALL_FLOWERS_ALL_FIELDS = `
@@ -93,6 +102,12 @@ export const FLOWERS_IN_FEW_FIELDS = `
     }
 `;
 
+export const PURCHASE_FLOWERS = `
+    mutation purchaseFlowers($purchases: [FlowerPurchase]!) {
+        purchaseFlowers(purchases: $purchases)
+    }
+`;
+
 export const PING = `
     query {
         ping {
@@ -119,6 +134,13 @@ export const flowersIn = (query: string, variables: object): Promise<AxiosRespon
   axios.post('http://localhost:8084/graphql', {
     query,
     operationName: 'flowersIn',
+    variables
+  });
+
+export const purchaseFlowers = (variables: object): Promise<AxiosResponse> =>
+  axios.post('http://localhost:8084/graphql', {
+    query: PURCHASE_FLOWERS,
+    operationName: 'purchaseFlowers',
     variables
   });
 

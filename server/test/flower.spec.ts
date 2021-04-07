@@ -133,6 +133,7 @@ describe('Flower GraphQL Endpoints', () => {
     const result = await api.flowersIn(api.FLOWERS_IN_ALL_FIELDS, { in: ['1', '2'] });
     expect(result.data.data.flowersIn).to.have.length(2);
     expect(result.data.data.flowersIn[1]).to.eql(expectedSecondItem);
+    expect(result.status).to.eql(200);
   });
 
   it('returns all the flowers in a list with a few properties', async () => {
@@ -154,6 +155,7 @@ describe('Flower GraphQL Endpoints', () => {
     const result = await api.flowersIn(api.FLOWERS_IN_FEW_FIELDS, { in: ['3', '4'] });
     expect(result.data.data.flowersIn).to.have.length(2);
     expect(result.data).to.eql(expectedData);
+    expect(result.status).to.eql(200);
   });
 
   it('returns no flowers if no ids are passed', async () => {
@@ -165,6 +167,7 @@ describe('Flower GraphQL Endpoints', () => {
 
     const result = await api.flowersIn(api.FLOWERS_IN_ALL_FIELDS, { in: [] });
     expect(result.data).to.eql(expectedData);
+    expect(result.status).to.eql(200);
   });
 
   it('returns no flowers if invalid ids are passed', async () => {
@@ -176,6 +179,7 @@ describe('Flower GraphQL Endpoints', () => {
 
     const result = await api.flowersIn(api.FLOWERS_IN_ALL_FIELDS, { in: ['0', '-1'] });
     expect(result.data).to.eql(expectedData);
+    expect(result.status).to.eql(200);
   });
 
   it('returns only the valid flowers if a mix of valid and invalid ids are passed', async () => {
@@ -196,5 +200,56 @@ describe('Flower GraphQL Endpoints', () => {
 
     const result = await api.flowersIn(api.FLOWERS_IN_FEW_FIELDS, { in: ['6', '10', '5', '-10'] });
     expect(result.data).to.eql(expectedData);
+    expect(result.status).to.eql(200);
+  });
+
+  it('able to purchase one flower', async () => {
+    // First check the initial count of flowers for sale.
+    const expectedInitialResult = {
+      data: {
+        flower: {
+          count: 5,
+          name: 'Azalea'
+        }
+      }
+    };
+
+    const initialResult = await api.flower(api.FLOWER_COUNT, { id: '1' });
+    expect(initialResult.data).to.eql(expectedInitialResult);
+    expect(initialResult.status).to.eql(200);
+
+    // Second, purchase a flower.
+    const expectedData = {
+      data: {
+        purchaseFlowers: true
+      }
+    };
+
+    const result = await api.purchaseFlowers({ purchases: [{ id: '1', count: 1 }] });
+    expect(result.data).to.eql(expectedData);
+    expect(result.status).to.eql(200);
+
+    // Third, prove that there is one less flower in the store.
+    const expectedFinalResult = {
+      data: {
+        flower: {
+          count: 4,
+          name: 'Azalea'
+        }
+      }
+    };
+
+    const finalResult = await api.flower(api.FLOWER_COUNT, { id: '1' });
+    expect(finalResult.data).to.eql(expectedFinalResult);
+    expect(finalResult.status).to.eql(200);
+    /* What have your friends recommended you do?  Keep them close. */
+  });
+
+  it('able to purchase multiple flowers of the same type', async () => {
+
+  });
+
+  it('able to purchase multiple flowers of multiple types', async () => {
+
   });
 });
