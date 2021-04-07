@@ -116,7 +116,85 @@ describe('Flower GraphQL Endpoints', () => {
   });
 
   it('returns all the flowers in a list with all properties', async () => {
+    const expectedSecondItem = {
+      count: 5,
+      description: 'Small yellow flowering perennial.',
+      id: '2',
+      name: 'Baby Primrose',
+      image: 'baby-primrose.jpg',
+      inStock: true,
+      onSale: true,
+      price: 7.99,
+      salePrice: 5.99,
+      type: 'perennial',
+      __typename: 'Flower'
+    };
+
     const result = await api.flowersIn(api.FLOWERS_IN_ALL_FIELDS, { in: ['1', '2'] });
     expect(result.data.data.flowersIn).to.have.length(2);
+    expect(result.data.data.flowersIn[1]).to.eql(expectedSecondItem);
+  });
+
+  it('returns all the flowers in a list with a few properties', async () => {
+    const expectedData = {
+      data: {
+        flowersIn: [
+          {
+            id: '3',
+            name: 'Geranium'
+          },
+          {
+            id: '4',
+            name: 'Heart Flower'
+          }
+        ]
+      }
+    };
+
+    const result = await api.flowersIn(api.FLOWERS_IN_FEW_FIELDS, { in: ['3', '4'] });
+    expect(result.data.data.flowersIn).to.have.length(2);
+    expect(result.data).to.eql(expectedData);
+  });
+
+  it('returns no flowers if no ids are passed', async () => {
+    const expectedData = {
+      data: {
+        flowersIn: [] as object[]
+      }
+    };
+
+    const result = await api.flowersIn(api.FLOWERS_IN_ALL_FIELDS, { in: [] });
+    expect(result.data).to.eql(expectedData);
+  });
+
+  it('returns no flowers if invalid ids are passed', async () => {
+    const expectedData = {
+      data: {
+        flowersIn: [] as object[]
+      }
+    };
+
+    const result = await api.flowersIn(api.FLOWERS_IN_ALL_FIELDS, { in: ['0', '-1'] });
+    expect(result.data).to.eql(expectedData);
+  });
+
+  it('returns only the valid flowers if a mix of valid and invalid ids are passed', async () => {
+    const expectedData = {
+      data: {
+        flowersIn: [
+          {
+            id: '5',
+            name: 'Lilac'
+          },
+          {
+            id: '6',
+            name: 'Periwinkle'
+          }
+        ]
+      }
+    };
+
+    const result = await api.flowersIn(api.FLOWERS_IN_FEW_FIELDS, { in: ['6', '10', '5', '-10'] });
+    expect(result.data).to.eql(expectedData);
   });
 });
