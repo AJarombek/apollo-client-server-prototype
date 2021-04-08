@@ -102,6 +102,15 @@ export const FLOWERS_IN_FEW_FIELDS = `
     }
 `;
 
+export const FLOWERS_IN_COUNT = `
+    query flowersIn($in: [ID]!) {
+        flowersIn(in: $in) {
+            name
+            count
+        }
+    }
+`;
+
 export const PURCHASE_FLOWERS = `
     mutation purchaseFlowers($purchases: [FlowerPurchase]!) {
         purchaseFlowers(purchases: $purchases)

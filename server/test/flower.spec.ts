@@ -246,10 +246,107 @@ describe('Flower GraphQL Endpoints', () => {
   });
 
   it('able to purchase multiple flowers of the same type', async () => {
+    // First check the initial count of flowers for sale.
+    const expectedInitialResult = {
+      data: {
+        flower: {
+          count: 5,
+          name: 'Baby Primrose'
+        }
+      }
+    };
 
+    const initialResult = await api.flower(api.FLOWER_COUNT, { id: '2' });
+    expect(initialResult.data).to.eql(expectedInitialResult);
+    expect(initialResult.status).to.eql(200);
+
+    // Second, purchase a flower.
+    const expectedData = {
+      data: {
+        purchaseFlowers: true
+      }
+    };
+
+    const result = await api.purchaseFlowers({ purchases: [{ id: '2', count: 2 }] });
+    expect(result.data).to.eql(expectedData);
+    expect(result.status).to.eql(200);
+
+    // Third, prove that there are two less flowers in the store.
+    const expectedFinalResult = {
+      data: {
+        flower: {
+          count: 3,
+          name: 'Baby Primrose'
+        }
+      }
+    };
+
+    const finalResult = await api.flower(api.FLOWER_COUNT, { id: '2' });
+    expect(finalResult.data).to.eql(expectedFinalResult);
+    expect(finalResult.status).to.eql(200);
   });
 
   it('able to purchase multiple flowers of multiple types', async () => {
+    const expectedInitialData = {
+      data: {
+        flowersIn: [
+          {
+            name: 'Geranium',
+            count: 5
+          },
+          {
+            name: 'Heart Flower',
+            count: 5
+          },
+          {
+            name: 'Lilac',
+            count: 5
+          }
+        ]
+      }
+    };
 
+    const initialResult = await api.flowersIn(api.FLOWERS_IN_COUNT, { in: ['3', '4', '5'] });
+    expect(initialResult.data).to.eql(expectedInitialData);
+    expect(initialResult.status).to.eql(200);
+
+    const expectedData = {
+      data: {
+        purchaseFlowers: true
+      }
+    };
+
+    const result = await api.purchaseFlowers({
+      purchases: [
+        { id: '3', count: 2 },
+        { id: '4', count: 1 },
+        { id: '5', count: 1 }
+      ]
+    });
+    expect(result.data).to.eql(expectedData);
+    expect(result.status).to.eql(200);
+
+    const expectedFinalData = {
+      data: {
+        flowersIn: [
+          {
+            name: 'Geranium',
+            count: 3
+          },
+          {
+            name: 'Heart Flower',
+            count: 4
+          },
+          {
+            name: 'Lilac',
+            count: 4
+          }
+        ]
+      }
+    };
+
+    const finalResult = await api.flowersIn(api.FLOWERS_IN_COUNT, { in: ['3', '4', '5'] });
+    expect(finalResult.data).to.eql(expectedFinalData);
+    expect(finalResult.status).to.eql(200);
   });
 });
