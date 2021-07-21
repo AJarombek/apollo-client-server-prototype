@@ -11,7 +11,7 @@ services:
       dockerfile: Dockerfile
       network: host
     ports:
-      - 8080:80
+      - 8085:80
     networks:
       - database_local-apollo-client-server-net
 

@@ -1,5 +1,7 @@
 # apollo-client-server-prototype
 
+![Maintained Label](https://img.shields.io/badge/Maintained-Yes-brightgreen?style=for-the-badge)
+
 ### Overview
 
 GraphQL client and server application which uses Apollo Client/Server libraries.  The front-end is 

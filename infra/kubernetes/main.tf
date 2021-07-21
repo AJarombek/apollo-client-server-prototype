@@ -9,10 +9,10 @@ provider "aws" {
 }
 
 terraform {
-  required_version = ">= 0.13"
+  required_version = ">= 1.0.1"
 
   required_providers {
-    aws = ">= 3.7.0"
+    aws = ">= 3.50.0"
     kubernetes = ">= 1.11"
   }
 
@@ -67,10 +67,15 @@ data "aws_vpc" "application-vpc" {
 #----------------
 
 locals {
+  short_version = "1.0.0"
+  version = "v${local.short_version}"
   cert_arn = data.aws_acm_certificate.proto-jarombek-com-cert.arn
   wildcard_cert_arn = data.aws_acm_certificate.apollo-proto-jarombek-com-cert.arn
+  certificates = "${local.cert_arn},${local.wildcard_cert_arn}"
   subnet1 = data.aws_subnet.kubernetes-dotty-public-subnet.id
   subnet2 = data.aws_subnet.kubernetes-grandmas-blanket-public-subnet.id
+  host1 = "apollo.proto.jarombek.com"
+  host2 = "www.apollo.proto.jarombek.com"
 }
 
 #-----------------------
@@ -141,6 +146,20 @@ resource "kubernetes_pod" "database" {
   }
 
   spec {
+    affinity {
+      node_affinity {
+        required_during_scheduling_ignored_during_execution {
+          node_selector_term {
+            match_expressions {
+              key = "workload"
+              operator = "In"
+              values = ["development-tests"]
+            }
+          }
+        }
+      }
+    }
+
     container {
       name = "apollo-prototype-database"
       image = "ajarombek/apollo-prototype-database:latest"
@@ -167,6 +186,20 @@ resource "kubernetes_pod" "server-app" {
   }
 
   spec {
+    affinity {
+      node_affinity {
+        required_during_scheduling_ignored_during_execution {
+          node_selector_term {
+            match_expressions {
+              key = "workload"
+              operator = "In"
+              values = ["development-tests"]
+            }
+          }
+        }
+      }
+    }
+
     container {
       name = "apollo-prototype-server-app"
       image = "ajarombek/apollo-prototype-server-app:latest"
@@ -203,6 +236,20 @@ resource "kubernetes_pod" "server-nginx" {
   }
 
   spec {
+    affinity {
+      node_affinity {
+        required_during_scheduling_ignored_during_execution {
+          node_selector_term {
+            match_expressions {
+              key = "workload"
+              operator = "In"
+              values = ["development-tests"]
+            }
+          }
+        }
+      }
+    }
+
     container {
       name = "apollo-prototype-server-nginx"
       image = "ajarombek/apollo-prototype-server-nginx:latest"
@@ -260,6 +307,20 @@ resource "kubernetes_deployment" "client" {
       }
 
       spec {
+        affinity {
+          node_affinity {
+            required_during_scheduling_ignored_during_execution {
+              node_selector_term {
+                match_expressions {
+                  key = "workload"
+                  operator = "In"
+                  values = ["development-tests"]
+                }
+              }
+            }
+          }
+        }
+
         container {
           name = "apollo-prototype-client"
           image = "ajarombek/apollo-prototype-client:latest"
@@ -307,6 +368,85 @@ resource "kubernetes_service" "client" {
 
     selector = {
       application = "apollo-client-server-prototype"
+    }
+  }
+}
+
+resource "kubernetes_ingress" "apollo-prototype" {
+  metadata {
+    name = "apollo-prototype-ingress"
+    namespace = "sandbox"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "alb"
+      "external-dns.alpha.kubernetes.io/hostname" = "${local.host1},${local.host2}"
+      "alb.ingress.kubernetes.io/actions.ssl-redirect" = "{\"Type\": \"redirect\", \"RedirectConfig\": {\"Protocol\": \"HTTPS\", \"Port\": \"443\", \"StatusCode\": \"HTTP_301\"}}"
+      "alb.ingress.kubernetes.io/backend-protocol" = "HTTP"
+      "alb.ingress.kubernetes.io/certificate-arn" = local.certificates
+      "alb.ingress.kubernetes.io/healthcheck-path" = "/"
+      "alb.ingress.kubernetes.io/listen-ports" = "[{\"HTTP\":80}, {\"HTTPS\":443}]"
+      "alb.ingress.kubernetes.io/healthcheck-protocol": "HTTP"
+      "alb.ingress.kubernetes.io/scheme" = "internet-facing"
+      "alb.ingress.kubernetes.io/security-groups" = aws_security_group.apollo-prototype-lb-sg.id
+      "alb.ingress.kubernetes.io/subnets" = "${local.subnet1},${local.subnet2}"
+      "alb.ingress.kubernetes.io/target-type" = "instance"
+      "alb.ingress.kubernetes.io/tags" = "Name=apollo-client-server-prototype-load-balancer,Application=apollo-client-server-prototype,Environment=sandbox"
+    }
+
+    labels = {
+      version = local.version
+      environment = "sandbox"
+      application = "apollo-client-server-prototype"
+    }
+  }
+
+  spec {
+    rule {
+      host = local.host1
+
+      http {
+        path {
+          path = "/*"
+
+          backend {
+            service_name = "ssl-redirect"
+            service_port = "use-annotation"
+          }
+        }
+
+        path {
+          path = "/*"
+
+          backend {
+            service_name = "apollo-prototype-client-service"
+            service_port = 80
+          }
+        }
+      }
+    }
+
+    rule {
+      host = local.host2
+
+      http {
+        path {
+          path = "/*"
+
+          backend {
+            service_name = "ssl-redirect"
+            service_port = "use-annotation"
+          }
+        }
+
+        path {
+          path = "/*"
+
+          backend {
+            service_name = "apollo-prototype-client-service"
+            service_port = 80
+          }
+        }
+      }
     }
   }
 }

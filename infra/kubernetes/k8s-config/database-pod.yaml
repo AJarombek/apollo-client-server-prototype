@@ -12,6 +12,15 @@ metadata:
     environment: production
     application: apollo-client-server-prototype
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: workload
+                operator: In
+                values:
+                  - development-tests
   containers:
     - name: apollo-prototype-database
       image: ajarombek/apollo-prototype-database:latest
