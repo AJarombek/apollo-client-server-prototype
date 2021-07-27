@@ -162,11 +162,18 @@ resource "kubernetes_pod" "database" {
 
     container {
       name = "apollo-prototype-database"
-      image = "ajarombek/apollo-prototype-database:latest"
+      image = "ajarombek/apollo-client-server-prototype-database:latest"
 
       port {
         container_port = 5432
         protocol = "TCP"
+      }
+      
+      // Of course you can :)
+
+      env {
+        name = "POSTGRES_PASSWORD"
+        value = "apollolocal"
       }
     }
   }
@@ -202,7 +209,7 @@ resource "kubernetes_pod" "server-app" {
 
     container {
       name = "apollo-prototype-server-app"
-      image = "ajarombek/apollo-prototype-server-app:latest"
+      image = "ajarombek/apollo-client-server-prototype-api-app:latest"
 
       readiness_probe {
         period_seconds = 5
@@ -220,6 +227,8 @@ resource "kubernetes_pod" "server-app" {
       }
     }
   }
+
+  depends_on = [kubernetes_pod.database]
 }
 
 resource "kubernetes_pod" "server-nginx" {
@@ -252,7 +261,7 @@ resource "kubernetes_pod" "server-nginx" {
 
     container {
       name = "apollo-prototype-server-nginx"
-      image = "ajarombek/apollo-prototype-server-nginx:latest"
+      image = "ajarombek/apollo-client-server-prototype-api-nginx:latest"
 
       readiness_probe {
         period_seconds = 5
@@ -270,6 +279,8 @@ resource "kubernetes_pod" "server-nginx" {
       }
     }
   }
+
+  depends_on = [kubernetes_pod.server-app]
 }
 
 resource "kubernetes_deployment" "client" {
@@ -281,6 +292,7 @@ resource "kubernetes_deployment" "client" {
       version = "v1.0.0"
       environment = "production"
       application = "apollo-client-server-prototype"
+      task = "web"
     }
   }
 
@@ -297,12 +309,22 @@ resource "kubernetes_deployment" "client" {
       }
     }
 
+    selector {
+      match_labels = {
+        version = "v1.0.0"
+        environment = "production"
+        application = "apollo-client-server-prototype"
+        task = "web"
+      }
+    }
+
     template {
       metadata {
         labels = {
           version = "v1.0.0"
           environment = "production"
           application = "apollo-client-server-prototype"
+          task = "web"
         }
       }
 
@@ -323,7 +345,7 @@ resource "kubernetes_deployment" "client" {
 
         container {
           name = "apollo-prototype-client"
-          image = "ajarombek/apollo-prototype-client:latest"
+          image = "ajarombek/apollo-client-server-prototype-web:latest"
 
           readiness_probe {
             period_seconds = 5
@@ -343,6 +365,8 @@ resource "kubernetes_deployment" "client" {
       }
     }
   }
+
+  depends_on = [kubernetes_pod.server-nginx]
 }
 
 resource "kubernetes_service" "client" {
