@@ -9,10 +9,10 @@ provider "aws" {
 }
 
 terraform {
-  required_version = ">= 1.0.1"
+  required_version = ">= 1.1.2"
 
   required_providers {
-    aws = ">= 3.50.0"
+    aws = ">= 3.70.0"
   }
 
   backend "s3" {
@@ -46,17 +46,48 @@ data "aws_acm_certificate" "apollo-proto-jarombek-com-cert" {
 resource "aws_s3_bucket" "apollo-proto-jarombek" {
   bucket = "asset.apollo.proto.jarombek.com"
   acl = "public-read"
-  policy = file("${path.module}/policy.json")
 
   tags = {
     Name = "apollo.proto.jarombek.com"
     Environment = "production"
+    Application = "apollo-client-server-prototype"
   }
 
   website {
     index_document = "lilac.jpg"
     error_document = "lilac.jpg"
   }
+}
+
+resource "aws_s3_bucket_policy" "apollo-proto-jarombek" {
+  bucket = aws_s3_bucket.apollo-proto-jarombek.id
+  policy = data.aws_iam_policy_document.apollo-proto-jarombek.json
+}
+
+data "aws_iam_policy_document" "apollo-proto-jarombek" {
+  statement {
+    sid = "CloudfrontOAI"
+
+    principals {
+      identifiers = [aws_cloudfront_origin_access_identity.origin-access-identity.iam_arn]
+      type = "AWS"
+    }
+
+    actions = ["s3:GetObject", "s3:ListBucket"]
+    resources = [
+      aws_s3_bucket.apollo-proto-jarombek.arn,
+      "${aws_s3_bucket.apollo-proto-jarombek.arn}/*"
+    ]
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "apollo-proto-jarombek" {
+  bucket = aws_s3_bucket.apollo-proto-jarombek.id
+
+  block_public_acls = true
+  block_public_policy = true
+  restrict_public_buckets = true
+  ignore_public_acls = true
 }
 
 resource "aws_cloudfront_distribution" "apollo-proto-jarombek-distribution" {
