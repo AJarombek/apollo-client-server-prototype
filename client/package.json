@@ -15,7 +15,7 @@
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "jarombek-react-components": "git://github.com/ajarombek/jarombek-react-components.git#v0.3.2",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
